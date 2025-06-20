@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "simpli5"
+version = "0.1.0"
+description = "Extensible AI CLI with agent and tool support."
+authors = [
+  { name = "Adarsh Trivedi", email = "your.email@example.com" }
+]
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "click>=8.0.0"
+]
+
+[project.scripts]
+simpli5 = "simpli5.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"] 
