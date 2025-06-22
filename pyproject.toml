@@ -14,7 +14,8 @@ requires-python = ">=3.10"
 dependencies = [
     "click>=8.0.0",
     "mcp",
-    "PyYAML>=6.0"
+    "PyYAML>=6.0",
+    "groq>=0.5.0"
 ]
 
 [project.scripts]

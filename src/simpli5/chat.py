@@ -3,7 +3,8 @@ import json
 import signal
 import sys
 from typing import List, Optional
-from .providers.multi_server import MultiServerProvider
+from .providers.mcp.multi import MultiServerProvider
+from .providers.llm.multi import MultiLLMProvider
 from .config import ConfigManager
 from .servers.cli_server import CLIMCPServer
 
@@ -22,6 +23,7 @@ class ChatInterface:
         self.multi_provider: Optional[MultiServerProvider] = None
         self.cli_server: Optional[CLIMCPServer] = None
         self.running = False
+        self.llm_manager: Optional[MultiLLMProvider] = None
         
         # Set up signal handlers for graceful shutdown
         signal.signal(signal.SIGINT, self._signal_handler)
@@ -36,6 +38,10 @@ class ChatInterface:
     async def start(self):
         """Start the chat interface."""
         try:
+            # Initialize the LLM provider manager
+            print("Initializing LLM providers...")
+            self.llm_manager = MultiLLMProvider()
+
             # Start CLI MCP server
             print("Starting CLI MCP server...")
             self.cli_server = CLIMCPServer(host="localhost", port=self.cli_server_port, log_level=self.log_level)
@@ -56,7 +62,7 @@ class ChatInterface:
             print("\n" + "="*50)
             print("Simpli5 Chat Interface")
             print("="*50)
-            print("Type /help for available commands")
+            print("Type a message to chat with the AI, or /help for commands.")
             print("Type /exit to quit")
             print("="*50)
             
@@ -80,24 +86,23 @@ class ChatInterface:
         print("Chat interface stopped.")
     
     async def _chat_loop(self):
-        """Main chat loop."""
+        """The main loop for handling user input."""
         while self.running:
-            try:
-                user_input = input("\n> ").strip()
-                if not user_input:
-                    continue
-                
-                await self._process_input(user_input)
-                
-            except KeyboardInterrupt:
-                print("\nReceived interrupt signal...")
-                break
-            except EOFError:
-                print("\nEnd of input...")
-                break
-            except Exception as e:
-                print(f"\nError processing input: {e}")
+            user_input = await self._prompt_for_input()
+
+            if not user_input:
                 continue
+
+            if user_input.startswith('/'):
+                await self._handle_command(user_input)
+            elif self.llm_manager and self.llm_manager.has_provider():
+                # Send the input to the LLM provider
+                print("\n🤔 Thinking...")
+                response = self.llm_manager.generate_response(user_input)
+                print(f"\n🤖 AI:\n{response}")
+            else:
+                print("\nLLM provider is not configured. Please check your 'config/llm_providers.yml' and ensure API keys are set.")
+                print("You can still use commands like /help, /tools, etc.")
         
         # Ensure cleanup happens
         try:
@@ -109,15 +114,12 @@ class ChatInterface:
             else:
                 print("Chat interface stopped.")
     
-    async def _process_input(self, user_input: str):
-        """Process user input and execute appropriate action."""
-        if user_input.startswith('/'):
-            await self._handle_command(user_input)
-        else:
-            await self._handle_conversation(user_input)
+    async def _prompt_for_input(self) -> str:
+        """Prompt for and read user input asynchronously."""
+        return input("\n> ").strip()
     
     async def _handle_command(self, command: str):
-        """Handle slash commands."""
+        """Handle chat commands."""
         parts = command.split(' ', 1)
         cmd = parts[0].lower()
         args = parts[1] if len(parts) > 1 else ""
@@ -140,12 +142,6 @@ class ChatInterface:
             self.running = False
         else:
             print(f"Unknown command: {cmd}. Type /help for available commands.")
-    
-    async def _handle_conversation(self, message: str):
-        """Handle regular conversation messages."""
-        # For now, just echo back. Later we can add LLM integration
-        print(f"You said: {message}")
-        print("(Conversation mode not yet implemented. Use /tools to see available tools.)")
     
     def _show_help(self):
         """Show available commands."""

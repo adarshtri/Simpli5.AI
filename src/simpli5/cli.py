@@ -4,11 +4,15 @@ import json
 import sys
 import os
 from contextlib import redirect_stderr
-from simpli5.providers.mcp_client import MCPClientProvider
-from simpli5.providers.multi_server import MultiServerProvider
+from dotenv import load_dotenv
+from simpli5.providers.mcp.client import MCPClientProvider
+from simpli5.providers.mcp.multi import MultiServerProvider
 from mcp.types import TextContent
 from simpli5.config import ConfigManager
 from simpli5.chat import ChatInterface
+
+# Load environment variables from a .env file
+load_dotenv()
 
 class FilteredStderr:
     """Custom stderr that filters out CancelledError tracebacks."""

@@ -1,0 +1,21 @@
+# Configuration for Large Language Model (LLM) providers.
+#
+# Each entry defines a provider that can be used for chat completions.
+# - 'provider': The module name where the provider class is located (e.g., 'groq').
+# - 'api_key_env': The name of the environment variable that holds the API key.
+# - 'default_model': The default model to use for this provider.
+# - 'enabled': Whether this provider is active.
+
+llm_providers:
+  groq:
+    provider: 'groq'
+    api_key_env: 'GROQ_API_KEY'
+    default_model: 'llama3-8b-8192'
+    enabled: true
+
+  # Example for adding OpenAI in the future:
+  # openai:
+  #   provider: 'openai'
+  #   api_key_env: 'OPENAI_API_KEY'
+  #   default_model: 'gpt-4o'
+  #   enabled: false 

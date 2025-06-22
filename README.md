@@ -38,215 +38,144 @@ pip install -r requirements.txt
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**Simpli5.AI** is an extensible AI CLI tool that supports multiple MCP (Model Context Protocol) servers, providing a unified interface for tools, resources, and prompts. Built with modern Python and designed for developers transitioning from software engineering to AI engineering.
+**Simpli5.AI** is an extensible, configuration-driven AI CLI that connects to both **Large Language Models (LLMs)** and **Model Context Protocol (MCP)** servers. It provides a unified, interactive chat interface for seamless interaction with multiple AI capabilities.
 
 ## ✨ Features
 
-- **Multi-Server MCP Support**: Connect to multiple MCP servers simultaneously
-- **Interactive Chat Interface**: Command-line chat with AI capabilities
-- **Host Tools & Resources**: Built-in CLI operations exposed as MCP tools
-- **Extensible Architecture**: Easy to add new tools, resources, and prompts
-- **Clean Logging**: Configurable verbosity levels for professional use
-- **Graceful Shutdown**: Proper cleanup and signal handling
+- **Multi-LLM Support**: Connect to multiple LLM providers (like Groq, OpenAI, etc.) through a simple config file.
+- **Multi-Server MCP Support**: Interact with tools, resources, and prompts from multiple MCP servers simultaneously.
+- **Interactive Chat Interface**: A single command-line interface for both conversational AI and MCP commands.
+- **Secure API Key Management**: Loads API keys securely from a `.env` file.
+- **Extensible Architecture**: Clean, provider-based architecture makes it easy to add new LLMs or MCP functionalities.
+- **Configurable Logging**: Control log verbosity for a clean user experience or detailed debugging.
 
 ## 🚀 Quick Start
 
-### Installation
+### 1. Installation
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/your-username/simpli5-ai.git
-   cd simpli5-ai
-   ```
+Clone the repository and set up your environment.
 
-2. **Create a virtual environment**:
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   ```
+```bash
+# Clone the project
+git clone https://github.com/your-username/simpli5-ai.git
+cd simpli5-ai
 
-3. **Install in development mode**:
-   ```bash
-   pip install -e .
-   ```
+# Create and activate a virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
-### Basic Usage
+# Install the project and its dependencies
+pip install -e .
+```
 
-1. **Start the interactive chat**:
-   ```bash
-   simpli5 chat
-   ```
+### 2. API Key Setup
 
-2. **Connect to specific servers**:
-   ```bash
-   simpli5 chat --servers local,example
-   ```
+Simpli5.AI loads API keys from a `.env` file for security.
 
-3. **Control logging verbosity**:
-   ```bash
-   simpli5 chat --log-level WARNING  # Less verbose (default)
-   simpli5 chat --log-level INFO     # More verbose for debugging
-   ```
+1.  **Create a `.env` file** in the project's root directory. You can copy the example file:
+    ```bash
+    cp .env.example .env
+    ```
+
+2.  **Edit the `.env` file** and add your secret API keys:
+    ```bash
+    # .env
+    GROQ_API_KEY="your-groq-api-key-here"
+    # OPENAI_API_KEY="your-openai-api-key-here"
+    ```
+
+### 3. Running the Chat
+
+Start the interactive chat interface with a single command.
+
+```bash
+simpli5 chat
+```
+
+Now you can chat with your configured LLM or use `/` commands to interact with MCP servers!
 
 ## 📖 Usage Guide
 
-### Chat Interface Commands
+### Chat Interface
 
-Once in the chat interface, you can use these commands:
+-   **Conversational AI**: Type any message to chat with the default configured LLM.
+-   **MCP Commands**: Use slash commands to interact with MCP servers.
+    -   `/help`: Show available commands.
+    -   `/tools`: List all tools from connected MCP servers.
+    -   `/call <server:tool> <args>`: Call a specific tool.
+    -   `/exit`: Quit the chat interface.
 
-- `/help` - Show available commands
-- `/tools` - List all available tools
-- `/call <server:tool> <args>` - Call a tool (e.g., `/call local:calculator {"operation": "add", "a": 5, "b": 3}`)
-- `/read <server://resource>` - Read a resource
-- `/generate <server:prompt> <args>` - Generate content from a prompt
-- `/exit` - Exit the chat interface
+## 🔧 Configuration
 
-### Server Configuration
+Simpli5.AI is fully configurable through YAML files in the `config/` directory.
 
-Configure MCP servers in `config/mcp_servers.yml`:
+### LLM Providers (`config/llm_providers.yml`)
+
+Configure which LLMs you want to use. The first enabled provider becomes the default for chat.
 
 ```yaml
+# config/llm_providers.yml
+llm_providers:
+  groq:
+    provider: 'groq'
+    api_key_env: 'GROQ_API_KEY'
+    default_model: 'llama3-8b-8192'
+    enabled: true
+  
+  openai:
+    provider: 'openai'
+    api_key_env: 'OPENAI_API_KEY'
+    default_model: 'gpt-4o'
+    enabled: false # Disabled by default
+```
+
+### MCP Servers (`config/mcp_servers.yml`)
+
+Add any MCP-compatible servers to access their tools and resources.
+
+```yaml
+# config/mcp_servers.yml
 servers:
   local:
     name: "Local Development Server"
     url: "http://localhost:8000/mcp"
-    description: "Local test server with calculator and file tools"
-    enabled: true
-  
-  example:
-    name: "Example Weather Server"
-    url: "https://mcp.pipedream.net/159d4d25-8d02-444d-972f-9671d4b6e55d/openweather_api"
-    description: "Weather data and forecasts"
     enabled: true
 ```
-
-### Built-in Host Tools
-
-Simpli5.AI exposes CLI operations as MCP tools:
-
-- `list_servers` - List all configured MCP servers
-- `run_command` - Execute shell commands
-- `get_config` - Get current configuration
-- `ping_server` - Test server connectivity
-
-### Built-in Host Resources
-
-- `config://config` - Current configuration
-- `config://servers` - Detailed server information
-- `system://info` - System information
-- `help://<topic>` - Help documentation
 
 ## 🛠️ Development
 
 ### Project Structure
 
+The project is organized for scalability and clarity.
+
 ```
 Simpli5.AI/
 ├── config/
-│   └── mcp_servers.yml          # Server configurations
-├── examples/
-│   └── simple_server.py         # Example MCP server
+│   ├── llm_providers.yml      # LLM provider configurations
+│   └── mcp_servers.yml        # MCP server configurations
 ├── src/
 │   └── simpli5/
-│       ├── __init__.py
-│       ├── cli.py               # CLI entry point
-│       ├── chat.py              # Interactive chat interface
-│       ├── config.py            # Configuration management
-│       ├── host/                # Built-in tools, resources, prompts
-│       ├── providers/           # MCP client and multi-server support
-│       └── servers/             # FastMCP server framework
-├── tests/
+│       ├── cli.py             # Main CLI entry point
+│       ├── chat.py            # Interactive chat interface
+│       ├── providers/
+│       │   ├── llm/           # LLM provider implementations
+│       │   └── mcp/           # MCP provider implementations
+│       └── ...
+├── .env.example               # Example environment variables
 ├── pyproject.toml
 └── README.md
 ```
 
-### Adding Custom Tools
+### Adding a New LLM Provider
 
-Create a new tool by extending `BaseTool`:
-
-```python
-from simpli5.servers.base import BaseTool, ToolResult
-
-class MyCustomTool(BaseTool):
-    @property
-    def name(self) -> str:
-        return "my_tool"
-    
-    @property
-    def description(self) -> str:
-        return "My custom tool description"
-    
-    @property
-    def input_schema(self) -> Dict[str, Any]:
-        return {
-            "type": "object",
-            "properties": {
-                "input": {"type": "string"}
-            },
-            "required": ["input"]
-        }
-    
-    async def execute(self, arguments: Dict[str, Any]) -> ToolResult:
-        input_data = arguments["input"]
-        result = f"Processed: {input_data}"
-        return ToolResult(result)
-```
-
-### Running Tests
-
-```bash
-# Run all tests
-pytest
-
-# Run with coverage
-pytest --cov=simpli5
-
-# Run specific test file
-pytest tests/test_chat.py
-```
-
-### Code Quality
-
-```bash
-# Format code
-black src/
-
-# Lint code
-flake8 src/
-
-# Type checking
-mypy src/
-```
-
-## 🔧 Configuration
-
-### Environment Variables
-
-- `MCP_SERVER_PORT` - Port for CLI MCP server (default: 8001)
-- `MCP_SERVER_HOST` - Host for CLI MCP server (default: localhost)
-
-### Log Levels
-
-- `DEBUG` - Detailed debugging information
-- `INFO` - General information (default for debugging)
-- `WARNING` - Warning messages (default for production)
-- `ERROR` - Error messages only
-- `CRITICAL` - Critical errors only
+1.  **Create the Provider Class**: Add a new file in `src/simpli5/providers/llm/` that inherits from `BaseLLMProvider`.
+2.  **Update `multi.py`**: Register your new provider class in `src/simpli5/providers/llm/multi.py`.
+3.  **Configure It**: Add its configuration to `config/llm_providers.yml`.
+4.  **Set the API Key**: Add the required API key to your `.env` file.
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Development Guidelines
-
-- Follow PEP 8 style guidelines
-- Add tests for new features
-- Update documentation for API changes
-- Use type hints for all function parameters and return values
+Contributions are welcome! Please follow the standard fork-and-pull-request workflow.
 
 ## 📝 License
 

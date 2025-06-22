@@ -1,7 +1,7 @@
 import asyncio
 from typing import Dict, List, Optional, Tuple
-from .mcp_client import MCPClientProvider
-from ..config import ConfigManager
+from .client import MCPClientProvider
+from ...config import ConfigManager
 
 class MultiServerProvider:
     """Manages connections to multiple MCP servers simultaneously."""

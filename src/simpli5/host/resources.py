@@ -85,7 +85,7 @@ class ServersResource(BaseResource):
             # Try to get additional info if server is enabled
             if server_config.enabled:
                 try:
-                    from ..providers.mcp_client import MCPClientProvider
+                    from ..providers.mcp.client import MCPClientProvider
                     provider = MCPClientProvider(server_config.url)
                     tools = await provider.list_tools()
                     resources = await provider.list_resources()
