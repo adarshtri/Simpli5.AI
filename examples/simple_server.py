@@ -10,7 +10,7 @@ import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from simpli5.servers.fastmcp_server import Simpli5MCPServer
+from simpli5.servers.fastmcp_server import FastMCPServer
 from simpli5.servers.examples import (
     CalculatorTool, 
     EchoTool, 
@@ -21,7 +21,7 @@ from simpli5.servers.examples import (
 
 def main():
     # Create the server
-    server = Simpli5MCPServer("Simpli5 Example Server")
+    server = FastMCPServer("Simpli5 Example Server")
     
     # Add tools
     server.add_tool(CalculatorTool())

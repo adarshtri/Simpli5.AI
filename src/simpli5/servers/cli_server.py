@@ -12,7 +12,7 @@ class CLIMCPServer(FastMCPServer):
     """MCP server that exposes CLI functionality as tools, resources, and prompts."""
     
     def __init__(self, host: str = "localhost", port: int = 8001, log_level: str = "WARNING"):
-        super().__init__(name="Simpli5 CLI Server", log_level=log_level)
+        super().__init__(name="Simpli5 CLI Server", host=host, port=port, log_level=log_level)
         self.server_name = "Simpli5 CLI Server"
         self.server_version = "1.0.0"
         self.host = host
@@ -52,10 +52,6 @@ class CLIMCPServer(FastMCPServer):
         print(f"  - Prompts: {len(self.prompts)}")
         
         self._running = True
-        
-        # Set environment variables for FastMCP HTTP server
-        os.environ['MCP_SERVER_PORT'] = str(self.port)
-        os.environ['MCP_SERVER_HOST'] = self.host
         
         # Start FastMCP HTTP server using async method
         try:

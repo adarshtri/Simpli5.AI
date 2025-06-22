@@ -19,8 +19,7 @@ class MultiServerProvider:
         for server_id in self.server_ids:
             if server_id == "cli":
                 # Special handling for CLI server
-                server_url = "http://localhost:8001"
-                print(f"Connecting to CLI server: {server_url}")
+                server_url = "http://localhost:8001/mcp"
             else:
                 server_url = self.config.get_server_url(server_id)
                 if not server_url:
@@ -30,7 +29,10 @@ class MultiServerProvider:
             try:
                 provider = MCPClientProvider(server_url)
                 self.providers[server_id] = provider
-                print(f"Connected to {server_id}: {server_url}")
+                if server_id == "cli":
+                    print(f"Connected to internal CLI Host Server as '{server_id}'")
+                else:
+                    print(f"Connected to external server '{server_id}' at {server_url}")
             except Exception as e:
                 print(f"Error connecting to {server_id}: {e}")
         

@@ -24,6 +24,7 @@ class ChatInterface:
         self.cli_server: Optional[CLIMCPServer] = None
         self.running = False
         self.llm_manager: Optional[MultiLLMProvider] = None
+        self.is_routing = False # Add a flag to prevent re-entrant calls
         
         # Set up signal handlers for graceful shutdown
         signal.signal(signal.SIGINT, self._signal_handler)
@@ -48,15 +49,17 @@ class ChatInterface:
             await self.cli_server.start()
             print(f"CLI MCP server started on localhost:{self.cli_server_port}")
             
-            # Add CLI server to the list of servers to connect to
-            all_server_ids = self.server_ids + ["cli"]
+            # Add CLI server to the list of servers to connect to, ensuring no duplicates
+            server_ids_to_connect = self.server_ids.copy()
+            if "cli" not in server_ids_to_connect:
+                server_ids_to_connect.append("cli")
             
-            if not all_server_ids:
+            if not server_ids_to_connect:
                 print("No servers configured. Please check your config/mcp_servers.yml file.")
                 return
             
-            print(f"Connecting to servers: {', '.join(all_server_ids)}")
-            self.multi_provider = MultiServerProvider(all_server_ids)
+            print(f"Connecting to servers: {', '.join(server_ids_to_connect)}")
+            self.multi_provider = MultiServerProvider(server_ids_to_connect)
             await self.multi_provider.connect()
             
             print("\n" + "="*50)
@@ -95,9 +98,10 @@ class ChatInterface:
 
             if user_input.startswith('/'):
                 await self._handle_command(user_input)
-            elif self.llm_manager and self.llm_manager.has_provider():
-                # Send the input to the LLM provider
-                print("\n🤔 Thinking...")
+            elif self.llm_manager and self.llm_manager.has_provider() and not self.is_routing:
+                await self._process_natural_language_input(user_input)
+            elif self.is_routing:
+                # This case is for the second pass, for a pure chat response
                 response = self.llm_manager.generate_response(user_input)
                 print(f"\n🤖 AI:\n{response}")
             else:
@@ -289,4 +293,83 @@ class ChatInterface:
                     else:
                         print(f"({content_type} content)")
         except Exception as e:
-            print(f"Error generating prompt: {e}") 
+            print(f"Error generating prompt: {e}")
+
+    async def _process_natural_language_input(self, user_input: str):
+        """
+        Uses the LLM to determine if the user's input is a tool call or a chat message.
+        """
+        print("\n🤔 Thinking...")
+        self.is_routing = True # Set flag to indicate we're in the routing phase
+
+        # 1. Get the list of available tools in a structured format
+        tools_list = []
+        if self.multi_provider:
+            for tool_name, (_, tool_info) in self.multi_provider.tools.items():
+                tools_list.append({
+                    "name": tool_name,
+                    "description": tool_info.description,
+                    "input_schema": getattr(tool_info, 'input_schema', {}),
+                })
+
+        # 2. Create the routing system prompt
+        system_prompt = f"""
+You are a helpful AI assistant that functions as a routing engine. Your task is to analyze the user's request and determine if it can be fulfilled by one of the available tools, or if it's a general conversational query.
+
+Here are the available tools:
+```json
+{json.dumps(tools_list, indent=2)}
+```
+
+Based on the user's request, you must respond with a JSON object indicating the user's intent. Your response MUST be one of two formats:
+
+1. If the request can be handled by a tool, respond with:
+   {{"intent": "tool_call", "call": {{"tool_name": "<tool_name>", "arguments": {{<arguments_json>}}}}}}
+   Please use user input and matched tool definition to create the arguments.
+   
+2. If the request is a general conversation (e.g., a greeting, or a question the tools cannot answer), respond with:
+   {{"intent": "chat"}}
+
+Do not add any other text to your response. Only provide the single JSON object.
+"""
+        # 3. Combine with user input and get the LLM's decision
+        full_prompt = f"{system_prompt}\n\nUser request: \"{user_input}\""
+        decision_str = self.llm_manager.generate_response(full_prompt)
+
+        # 4. Parse the decision
+        try:
+            decision = json.loads(decision_str)
+            intent = decision.get("intent")
+
+            if intent == "tool_call":
+                call_details = decision.get("call", {})
+                tool_name = call_details.get("tool_name")
+                arguments = json.dumps(call_details.get("arguments", {}))
+                command_str = f"/call {tool_name} {arguments}"
+                print(f"✅ Understood! Running command: {command_str}")
+                await self._handle_command(command_str)
+            elif intent == "chat":
+                # If it's a chat, re-run the input for a conversational response
+                await self._chat_loop_entry(user_input)
+            else:
+                print(f"🤖 AI:\nI'm not sure how to handle that. The LLM returned an unknown intent: '{intent}'")
+                print(f"Raw response: {decision_str}")
+
+        except json.JSONDecodeError:
+            print(f"🤖 AI:\nI received an unexpected response. I'll treat this as a conversation.")
+            # If the response isn't valid JSON, treat it as a conversational response.
+            print(decision_str)
+        finally:
+            self.is_routing = False # Reset the flag
+
+    async def _chat_loop_entry(self, user_input: str):
+        """A re-entry point for the chat loop to avoid recursion issues."""
+        if user_input.startswith('/'):
+            await self._handle_command(user_input)
+        elif self.llm_manager and self.llm_manager.has_provider():
+            # This is the second pass, for a pure chat response
+            response = self.llm_manager.generate_response(user_input)
+            print(f"\n🤖 AI:\n{response}")
+        else:
+            # Fallback if somehow called without an LLM
+            print("\nLLM provider not available.") 

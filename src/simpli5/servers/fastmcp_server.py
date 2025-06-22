@@ -16,10 +16,13 @@ TYPE_MAP: Dict[str, Type] = {
 class FastMCPServer:
     """Simpli5 MCP Server using FastMCP."""
     
-    def __init__(self, name: str = "Simpli5 Server", log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "WARNING"):
+    def __init__(self, name: str = "Simpli5 Server", 
+                 host: str = "127.0.0.1", 
+                 port: int = 8000, 
+                 log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "WARNING"):
         self.name = name
         self.log_level = log_level
-        self.mcp = FastMCP(name, log_level=log_level)
+        self.mcp = FastMCP(name, host=host, port=port, log_level=log_level)
         self.tools: List[BaseTool] = []
         self.resources: List[BaseResource] = []
         self.prompts: List[BasePrompt] = []
