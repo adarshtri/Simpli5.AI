@@ -15,6 +15,12 @@ class ResourceResult:
     mime_type: str = "text/plain"
     metadata: Optional[Dict[str, Any]] = None
 
+@dataclass
+class PromptResult:
+    """Result from generating a prompt."""
+    content: str
+    metadata: Optional[Dict[str, Any]] = None
+
 class BaseTool(ABC):
     """Base class for MCP tools."""
     
@@ -89,6 +95,6 @@ class BasePrompt(ABC):
         pass
     
     @abstractmethod
-    async def generate(self, arguments: Dict[str, Any]) -> str:
+    async def generate(self, arguments: Dict[str, Any]) -> PromptResult:
         """Generate prompt content with given arguments."""
         pass 

@@ -1,0 +1,12 @@
+servers:
+  local:
+    name: "Local Development Server"
+    url: "http://localhost:8000/mcp"
+    description: "Local test server with calculator and file tools"
+    enabled: true
+  
+  example:
+    name: "Example Weather Server"
+    url: "https://mcp.pipedream.net/159d4d25-8d02-444d-972f-9671d4b6e55d/openweather_api"
+    description: "Weather data and forecasts"
+    enabled: true 

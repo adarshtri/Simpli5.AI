@@ -145,11 +145,13 @@ class GreetingPrompt(BasePrompt):
             {
                 "name": "name",
                 "description": "Name of the person to greet",
+                "type": "string",
                 "required": True
             },
             {
                 "name": "time_of_day",
                 "description": "Time of day (morning, afternoon, evening)",
+                "type": "string",
                 "required": False
             }
         ]

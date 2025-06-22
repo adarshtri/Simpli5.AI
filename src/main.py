@@ -1,8 +1,4 @@
-def main():
-    """
-    Main entry point for the application.
-    """
-    print("Hello, World!")
+from simpli5.cli import main
 
 if __name__ == "__main__":
     main() 

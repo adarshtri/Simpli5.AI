@@ -1,85 +1,103 @@
 import click
 import asyncio
 import json
+import sys
+import os
+from contextlib import redirect_stderr
 from simpli5.providers.mcp_client import MCPClientProvider
+from simpli5.providers.multi_server import MultiServerProvider
 from mcp.types import TextContent
+from simpli5.config import ConfigManager
+from simpli5.chat import ChatInterface
+
+class FilteredStderr:
+    """Custom stderr that filters out CancelledError tracebacks."""
+    
+    def __init__(self, original_stderr):
+        self.original_stderr = original_stderr
+        self.buffer = []
+        self.suppress_next = False
+    
+    def write(self, text):
+        # Check if this looks like a CancelledError traceback
+        if "CancelledError" in text or "asyncio.exceptions.CancelledError" in text:
+            self.suppress_next = True
+            return
+        
+        # If we're suppressing, check if this is part of the traceback
+        if self.suppress_next:
+            if "Traceback" in text or "File " in text or "  File " in text:
+                return
+            if text.strip() == "":
+                return
+            # If we reach here, it's not part of the traceback, so stop suppressing
+            self.suppress_next = False
+        
+        # Write to original stderr
+        self.original_stderr.write(text)
+    
+    def flush(self):
+        self.original_stderr.flush()
 
 @click.group()
 def main():
-    """Simpli5 CLI entry point."""
+    """Simpli5.AI - Extensible AI CLI with MCP server support."""
     pass
 
 @main.command()
-@click.option('--server', required=True, help='MCP server URL (e.g., http://localhost:8000/mcp)')
-def list_tools(server):
-    """List available tools from the MCP server."""
-    async def _list():
-        provider = MCPClientProvider(server)
-        tools = await provider.list_tools()
-        if not tools:
-            click.echo("No tools found on the server.")
-            return
-        for i, tool in enumerate(tools):
-            click.echo(f"----------- Tool {i+1} -----------")
-            click.echo(f"- {tool.name}: {tool.description}")
-            click.echo("================================================")
-            click.echo(f"- Input Schema: {tool.inputSchema}")
-            click.echo(f"--------------------------------\n")
-    asyncio.run(_list())
-
-@main.command()
-@click.option('--server', required=True, help='MCP server URL (e.g., http://localhost:8000/mcp)')
-@click.option('--tool', required=True, help='Name of the tool to call')
-@click.option('--args', required=True, help='Tool arguments as JSON string (e.g., \'{"key": "value"}\')')
-def call_tool(server, tool, args):
-    """Call a tool on the MCP server with the given arguments."""
-    async def _call():
-        try:
-            arguments = json.loads(args)
-        except json.JSONDecodeError:
-            click.echo("Error: Invalid JSON in --args parameter")
-            return
+@click.option('--servers', help='Comma-separated list of server IDs (e.g., local,example)')
+@click.option('--log-level', 
+              type=click.Choice(['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'], case_sensitive=False),
+              default='WARNING',
+              help='Set logging level for MCP servers')
+def chat(servers, log_level):
+    """Start interactive chat with MCP servers."""
+    async def _chat():
+        server_ids = None
+        if servers:
+            server_ids = [s.strip() for s in servers.split(',')]
         
-        provider = MCPClientProvider(server)
-        result = await provider.call_tool(tool, arguments)
-        for content in result.content:
-            if content.type == 'text':
-                click.echo(json.loads(content.text))
-            else:
-                click.echo(content)
-    asyncio.run(_call())
+        chat_interface = ChatInterface(server_ids, log_level=log_level.upper())
+        try:
+            await chat_interface.start()
+        except KeyboardInterrupt:
+            print("\nShutting down...")
+        except Exception as e:
+            print(f"\nError in chat interface: {e}")
+        finally:
+            await chat_interface.stop()
+    
+    # Use filtered stderr to suppress only CancelledError tracebacks
+    original_stderr = sys.stderr
+    try:
+        sys.stderr = FilteredStderr(original_stderr)
+        asyncio.run(_chat())
+    finally:
+        sys.stderr = original_stderr
 
 @main.command()
-@click.option('--server', required=True, help='MCP server URL (e.g., http://localhost:8000/mcp)')
-def list_resources(server):
-    """List available resources from the MCP server."""
-    async def _list():
-        provider = MCPClientProvider(server)
-        resources = await provider.list_resources()
-        if not resources:
-            click.echo("No resources found on the server.")
-            return
-        for i, resource in enumerate(resources):
-            click.echo(f"----------- Resource {i+1} -----------")
-            click.echo(f"- URI: {resource.uri}")
-            click.echo(f"- Name: {resource.name}")
-            if resource.description:
-                click.echo(f"- Description: {resource.description}")
-            click.echo(f"--------------------------------\n")
-    asyncio.run(_list())
+def version():
+    """Show Simpli5.AI version."""
+    click.echo("Simpli5.AI v0.1.0")
 
 @main.command()
-@click.option('--server', required=True, help='MCP server URL (e.g., http://localhost:8000/mcp)')
-@click.option('--uri', required=True, help='URI of the resource to read')
-def read_resource(server, uri):
-    """Read content from a specific resource on the MCP server."""
-    async def _read():
-        provider = MCPClientProvider(server)
-        content, mime_type = await provider.read_resource(uri)
-        click.echo(f"MIME Type: {mime_type}")
-        click.echo("Content:")
-        click.echo(content)
-    asyncio.run(_read())
+def help():
+    """Show help information."""
+    click.echo("""
+Simpli5.AI - Extensible AI CLI with MCP server support.
+
+Commands:
+  chat     Start interactive chat with MCP servers
+  version  Show version information
+  help     Show this help message
+
+Examples:
+  simpli5 chat                    # Start chat with all configured servers
+  simpli5 chat --servers local,math  # Start chat with specific servers
+  simpli5 chat --log-level INFO   # Start chat with verbose logging
+
+For more information, visit: https://github.com/your-username/simpli5-ai
+""")
 
 if __name__ == "__main__":
     main() 

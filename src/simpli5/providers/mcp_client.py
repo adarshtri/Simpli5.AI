@@ -34,6 +34,20 @@ class MCPClientProvider:
                 content, mime_type = await session.read_resource(uri)
                 return content, mime_type
 
+    async def list_prompts(self):
+        async with streamablehttp_client(self.server_url) as (read_stream, write_stream, _):
+            async with ClientSession(read_stream, write_stream) as session:
+                await session.initialize()
+                prompts_response = await session.list_prompts()
+                return prompts_response.prompts
+
+    async def generate_prompt(self, prompt_name: str, arguments: dict):
+        async with streamablehttp_client(self.server_url) as (read_stream, write_stream, _):
+            async with ClientSession(read_stream, write_stream) as session:
+                await session.initialize()
+                result = await session.get_prompt(prompt_name, arguments=arguments)
+                return result
+
 # Example usage (for testing only)
 if __name__ == "__main__":
     import sys
