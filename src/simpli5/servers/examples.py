@@ -4,6 +4,50 @@ from datetime import datetime
 from typing import Dict, Any, List
 from .base import BaseTool, BaseResource, BasePrompt, ToolResult, ResourceResult
 
+class GreetingTool(BaseTool):
+    """Simple greeting tool."""
+    
+    @property
+    def name(self) -> str:
+        return "greeting"
+    
+    @property
+    def description(self) -> str:
+        return "Generate a personalized greeting"
+    
+    @property
+    def input_schema(self) -> Dict[str, Any]:
+        return {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of the person to greet"
+                },
+                "time_of_day": {
+                    "type": "string",
+                    "description": "Time of day (morning, afternoon, evening)",
+                    "enum": ["morning", "afternoon", "evening"]
+                }
+            },
+            "required": ["name"] 
+        }
+    
+    async def execute(self, arguments: Dict[str, Any]) -> ToolResult:
+        name = arguments["name"]
+        time_of_day = arguments.get("time_of_day", "day")
+        
+        greetings = {
+            "morning": "Good morning",
+            "afternoon": "Good afternoon", 
+            "evening": "Good evening",
+            "day": "Hello"
+        }
+        
+        greeting = greetings.get(time_of_day, "Hello")
+        return ToolResult(f"{greeting}, {name}! How can I help you today?")
+    
+
 class CalculatorTool(BaseTool):
     """Simple calculator tool."""
     
@@ -22,7 +66,7 @@ class CalculatorTool(BaseTool):
             "properties": {
                 "operation": {
                     "type": "string",
-                    "enum": ["add", "subtract", "multiply", "divide"]
+                    "description": f"Possible values are {["add", "subtract", "multiply", "divide"]}"
                 },
                 "a": {"type": "number"},
                 "b": {"type": "number"}

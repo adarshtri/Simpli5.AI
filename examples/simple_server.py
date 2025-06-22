@@ -16,7 +16,8 @@ from simpli5.servers.examples import (
     EchoTool, 
     SystemInfoResource, 
     FileResource,
-    GreetingPrompt
+    GreetingPrompt,
+    GreetingTool
 )
 
 def main():
@@ -26,6 +27,7 @@ def main():
     # Add tools
     server.add_tool(CalculatorTool())
     server.add_tool(EchoTool())
+    server.add_tool(GreetingTool())
     
     # Add resources
     server.add_resource(SystemInfoResource())

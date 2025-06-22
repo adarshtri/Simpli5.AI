@@ -171,11 +171,33 @@ class ChatInterface:
             return
         
         print(f"\nAvailable Tools ({len(tools)} total):")
-        print("-" * 40)
-        for tool_name, server_id, tool_info in tools:
+        
+        for tool_name, server_id, tool_info in sorted(tools):
+            print("-" * 40)
             print(f"• {tool_name}")
+            print(f"  (from: {server_id})")
+
             if hasattr(tool_info, 'description') and tool_info.description:
-                print(f"  {tool_info.description}")
+                print(f"\n  {tool_info.description}")
+            
+            if hasattr(tool_info, 'input_schema') and tool_info.input_schema:
+                schema = tool_info.input_schema
+                properties = schema.get("properties", {})
+                
+                if properties:
+                    print("\n  Arguments:")
+                    required = schema.get("required", [])
+                    for name, details in properties.items():
+                        arg_type = details.get("type", "any")
+                        req_str = " (required)" if name in required else ""
+                        desc = details.get("description", "No description.")
+                        
+                        default_val = details.get('default')
+                        default_str = f" (default: {json.dumps(default_val)})" if default_val is not None else ""
+
+                        print(f"    - {name} [{arg_type}]{req_str}{default_str}")
+                        print(f"      {desc}")
+            print()
     
     def _show_resources(self):
         """Show all available resources."""
@@ -321,20 +343,62 @@ Here are the available tools:
 {json.dumps(tools_list, indent=2)}
 ```
 
-Based on the user's request, you must respond with a JSON object indicating the user's intent. Your response MUST be one of two formats:
+Based on the user's request, you must respond with a JSON object indicating your decision.
+Your response **MUST** be a single raw JSON object and nothing else.
+Your response MUST be in one of the following two formats.
 
-1. If the request can be handled by a tool, respond with:
-   {{"intent": "tool_call", "call": {{"tool_name": "<tool_name>", "arguments": {{<arguments_json>}}}}}}
-   Please use user input and matched tool definition to create the arguments.
-   
-2. If the request is a general conversation (e.g., a greeting, or a question the tools cannot answer), respond with:
-   {{"intent": "chat"}}
+1.  **To call a tool**:
+    Respond with a JSON object like this. Fill in the tool name and arguments from the user's request.
+    ```json
+    {{
+        "intent": "tool_call",
+        "call": {{
+            "tool_name": "name-of-the-tool",
+            "arguments": {{
+                "arg1_name": "value1",
+                "arg2_name": "value2"
+            }}
+        }}
+    }}
+    ```
 
-Do not add any other text to your response. Only provide the single JSON object.
+2.  **For conversation**:
+    If the request is conversational, respond with this exact JSON:
+    ```json
+    {{
+        "intent": "chat"
+    }}
+    ```
+
+Here is an example of how to respond:
+
+If the user says: `run the command ls -l in my current directory`
+
+You should respond with the following raw JSON:
+```json
+{{
+    "intent": "tool_call",
+    "call": {{
+        "tool_name": "cli:run_command",
+        "arguments": {{
+            "command": "ls -l"
+        }}
+    }}
+}}
+```
 """
         # 3. Combine with user input and get the LLM's decision
         full_prompt = f"{system_prompt}\n\nUser request: \"{user_input}\""
+        
+        print("\n\n\n!!!!!!!!! SIMPLI5 DEBUG: PROMPT FOR LLM !!!!!!!!!\n")
+        print(full_prompt)
+        print("\n!!!!!!!!! END OF PROMPT !!!!!!!!!\n\n\n")
+
         decision_str = self.llm_manager.generate_response(full_prompt)
+
+        print("\n\n\n!!!!!!!!! SIMPLI5 DEBUG: RAW RESPONSE FROM LLM !!!!!!!!!\n")
+        print(decision_str)
+        print("\n!!!!!!!!! END OF RAW RESPONSE !!!!!!!!!\n\n\n")
 
         # 4. Parse the decision
         try:

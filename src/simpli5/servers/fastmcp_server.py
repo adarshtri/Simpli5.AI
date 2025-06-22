@@ -32,23 +32,36 @@ class FastMCPServer:
         self.tools.append(tool)
         
         # Create a function with the correct signature for FastMCP to inspect.
-        params = [
-            Parameter(
-                name,
-                Parameter.KEYWORD_ONLY,
-                annotation=TYPE_MAP.get(prop.get("type"), Any)
-            )
-            for name, prop in tool.input_schema.get("properties", {}).items()
-        ]
+        params = []
+        for name, prop in tool.input_schema.get("properties", {}).items():
+            param_args = {
+                "name": name,
+                "kind": Parameter.KEYWORD_ONLY,
+                "annotation": TYPE_MAP.get(prop.get("type"), Any)
+            }
+            if "default" in prop:
+                param_args["default"] = prop["default"]
+            
+            params.append(Parameter(**param_args))
+
         sig = Signature(params)
         
+        # Dynamically construct a docstring that includes argument descriptions
+        docstring_lines = [tool.description, ""]
+        if "properties" in tool.input_schema:
+            docstring_lines.append("Args:")
+            for name, prop in tool.input_schema.get("properties", {}).items():
+                prop_type = prop.get("type", "any")
+                prop_desc = prop.get("description", "")
+                docstring_lines.append(f"    {name} ({prop_type}): {prop_desc}")
+
         async def tool_func(**kwargs):
             result = await tool.execute(kwargs)
             return result.content
 
         tool_func.__signature__ = sig
         tool_func.__name__ = tool.name
-        tool_func.__doc__ = tool.description
+        tool_func.__doc__ = "\n".join(docstring_lines)
         tool_func.__annotations__ = {p.name: p.annotation for p in sig.parameters.values()}
         
         self.mcp.tool()(tool_func)
