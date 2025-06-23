@@ -389,19 +389,14 @@ You should respond with the following raw JSON:
 """
         # 3. Combine with user input and get the LLM's decision
         full_prompt = f"{system_prompt}\n\nUser request: \"{user_input}\""
-        
-        print("\n\n\n!!!!!!!!! SIMPLI5 DEBUG: PROMPT FOR LLM !!!!!!!!!\n")
-        print(full_prompt)
-        print("\n!!!!!!!!! END OF PROMPT !!!!!!!!!\n\n\n")
-
         decision_str = self.llm_manager.generate_response(full_prompt)
-
-        print("\n\n\n!!!!!!!!! SIMPLI5 DEBUG: RAW RESPONSE FROM LLM !!!!!!!!!\n")
-        print(decision_str)
-        print("\n!!!!!!!!! END OF RAW RESPONSE !!!!!!!!!\n\n\n")
 
         # 4. Parse the decision
         try:
+            # Try to find JSON block in case the LLM wraps it in markdown
+            if "```json" in decision_str:
+                decision_str = decision_str.split("```json")[1].split("```")[0].strip()
+
             decision = json.loads(decision_str)
             intent = decision.get("intent")
 
@@ -419,10 +414,11 @@ You should respond with the following raw JSON:
                 print(f"🤖 AI:\nI'm not sure how to handle that. The LLM returned an unknown intent: '{intent}'")
                 print(f"Raw response: {decision_str}")
 
-        except json.JSONDecodeError:
-            print(f"🤖 AI:\nI received an unexpected response. I'll treat this as a conversation.")
+        except (json.JSONDecodeError, IndexError) as e:
+            print(f"🤖 AI:\nI received an unexpected response and couldn't parse the tool call. I'll treat this as a conversation.")
             # If the response isn't valid JSON, treat it as a conversational response.
-            print(decision_str)
+            print(f"Raw response was:\n---\n{decision_str}\n---")
+            await self._chat_loop_entry(user_input)
         finally:
             self.is_routing = False # Reset the flag
 
