@@ -45,6 +45,7 @@ pip install -r requirements.txt
 - **Multi-LLM Support**: Connect to multiple LLM providers (like Groq, OpenAI, etc.) through a simple config file.
 - **Multi-Server MCP Support**: Interact with tools, resources, and prompts from multiple MCP servers simultaneously.
 - **Interactive Chat Interface**: A single command-line interface for both conversational AI and MCP commands.
+- **Telegram Webhook**: Receive and store Telegram messages in Firestore for AI analysis.
 - **Secure API Key Management**: Loads API keys securely from a `.env` file.
 - **Extensible Architecture**: Clean, provider-based architecture makes it easy to add new LLMs or MCP functionalities.
 - **Configurable Logging**: Control log verbosity for a clean user experience or detailed debugging.
@@ -104,6 +105,61 @@ Now you can chat with your configured LLM or use `/` commands to interact with M
     -   `/tools`: List all tools from connected MCP servers.
     -   `/call <server:tool> <args>`: Call a specific tool.
     -   `/exit`: Quit the chat interface.
+
+### Telegram Webhook
+
+Simpli5.AI includes a webhook server that can receive Telegram messages and store them in Firestore for AI analysis.
+
+#### Setup
+
+1. **Create a Telegram Bot**: Use [@BotFather](https://t.me/botfather) to create a bot and get the token.
+
+2. **Set up Firebase**: 
+   - Create a Firebase project
+   - Download the service account JSON file
+   - Set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable
+
+3. **Configure Environment Variables**:
+   ```bash
+   # .env
+   TELEGRAM_BOT_TOKEN=your_bot_token_here
+   GOOGLE_APPLICATION_CREDENTIALS=path/to/service-account.json
+   ```
+
+4. **Start the Webhook Server**:
+   ```bash
+   # Using CLI command
+   simpli5 webhook --telegram-token YOUR_TOKEN --webhook-url https://your-domain.com/webhook
+   
+   # Or using the example script
+   python examples/telegram_webhook_example.py
+   ```
+
+#### Features
+
+- **Message Storage**: All incoming Telegram messages are stored in Firestore
+- **Health Check**: Available at `/health` endpoint
+- **Webhook Management**: Automatically sets up and removes webhooks
+- **Error Handling**: Robust error handling and logging
+
+#### Testing with ngrok
+
+For local development, you can use ngrok to create a public HTTPS URL:
+
+```bash
+# Install ngrok
+npm install -g ngrok
+
+# Start your webhook server
+simpli5 webhook --telegram-token YOUR_TOKEN --webhook-url https://your-ngrok-url.ngrok.io/webhook
+
+# In another terminal, expose your local server
+ngrok http 8000
+```
+
+#### Complete Setup Guide
+
+For detailed setup instructions, see [SETUP_WEBHOOK.md](SETUP_WEBHOOK.md).
 
 ## 🔧 Configuration
 

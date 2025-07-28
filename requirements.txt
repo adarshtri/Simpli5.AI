@@ -1,4 +1,9 @@
 pytest==7.4.3
 black==23.11.0
 flake8==6.1.0
-python-dotenv==1.0.0 
+python-dotenv==1.0.0
+fastapi==0.104.1
+uvicorn==0.24.0
+python-telegram-bot==20.7
+firebase-admin==6.2.0
+pydantic==2.5.0 

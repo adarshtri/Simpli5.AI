@@ -1,0 +1,18 @@
+# Telegram Webhook Configuration
+# Copy this file and update with your actual values
+
+telegram:
+  bot_token: "YOUR_TELEGRAM_BOT_TOKEN"  # Get from @BotFather
+  webhook_url: "https://your-domain.com/webhook"  # Public HTTPS URL
+
+firebase:
+  credentials_path: "path/to/your/service-account.json"  # Optional, uses env var if not provided
+  collection_name: "telegram_messages"  # Firestore collection name
+
+server:
+  host: "0.0.0.0"
+  port: 8000
+
+# Environment Variables (alternative to config file):
+# TELEGRAM_BOT_TOKEN=your_bot_token
+# GOOGLE_APPLICATION_CREDENTIALS=path/to/service-account.json 

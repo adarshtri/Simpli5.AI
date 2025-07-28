@@ -10,6 +10,7 @@ from simpli5.providers.mcp.multi import MultiServerProvider
 from mcp.types import TextContent
 from simpli5.config import ConfigManager
 from simpli5.chat import ChatInterface
+from simpli5.webhook import TelegramWebhook
 
 # Load environment variables from a .env file
 load_dotenv()
@@ -92,6 +93,7 @@ Simpli5.AI - Extensible AI CLI with MCP server support.
 
 Commands:
   chat     Start interactive chat with MCP servers
+  webhook  Start Telegram webhook server
   version  Show version information
   help     Show this help message
 
@@ -99,9 +101,53 @@ Examples:
   simpli5 chat                    # Start chat with all configured servers
   simpli5 chat --servers local,math  # Start chat with specific servers
   simpli5 chat --log-level INFO   # Start chat with verbose logging
+  simpli5 webhook --telegram-token TOKEN --webhook-url URL  # Start webhook server
 
 For more information, visit: https://github.com/your-username/simpli5-ai
 """)
+
+@main.command()
+@click.option('--telegram-token', envvar='TELEGRAM_BOT_TOKEN', required=True,
+              help='Telegram bot token')
+@click.option('--webhook-url', required=True,
+              help='Public URL where webhook will receive updates (e.g., https://your-domain.com/webhook)')
+@click.option('--firebase-credentials', envvar='GOOGLE_APPLICATION_CREDENTIALS',
+              help='Path to Firebase service account JSON file (optional - messages will be printed to console if not provided)')
+@click.option('--collection-name', default='telegram_messages',
+              help='Firestore collection name for storing messages')
+@click.option('--host', default='0.0.0.0', help='Host to bind the server to')
+@click.option('--port', default=8000, help='Port to bind the server to')
+def webhook(telegram_token, webhook_url, firebase_credentials, collection_name, host, port):
+    """Start Telegram webhook server to receive and store messages in Firestore."""
+    async def _webhook():
+        try:
+            # Create webhook instance
+            webhook = TelegramWebhook(
+                telegram_token=telegram_token,
+                webhook_url=webhook_url,
+                firebase_credentials_path=firebase_credentials,
+                collection_name=collection_name
+            )
+            
+            # Setup webhook with Telegram
+            await webhook.setup_webhook()
+            
+            click.echo(f"Webhook server starting on {host}:{port}")
+            click.echo(f"Webhook URL: {webhook_url}")
+            click.echo(f"Firestore collection: {collection_name}")
+            click.echo("Press Ctrl+C to stop the server")
+            
+            # Run the server
+            webhook.run(host=host, port=port)
+            
+        except KeyboardInterrupt:
+            click.echo("\nShutting down webhook server...")
+            # Remove webhook
+            await webhook.remove_webhook()
+        except Exception as e:
+            click.echo(f"Error in webhook server: {e}")
+    
+    asyncio.run(_webhook())
 
 if __name__ == "__main__":
     main() 
