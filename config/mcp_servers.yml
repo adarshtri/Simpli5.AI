@@ -9,4 +9,10 @@ servers:
     name: "Example Weather Server"
     url: "https://mcp.pipedream.net/159d4d25-8d02-444d-972f-9671d4b6e55d/openweather_api"
     description: "Weather data and forecasts"
+    enabled: true
+  
+  telegram:
+    name: "Telegram Bot Server"
+    url: "http://localhost:8002/mcp"
+    description: "Telegram bot functionality including memory categorization"
     enabled: true 

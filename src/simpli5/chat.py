@@ -6,7 +6,7 @@ from typing import List, Optional
 from .providers.mcp.multi import MultiServerProvider
 from .providers.llm.multi import MultiLLMProvider
 from .config import ConfigManager
-from .servers.cli_server import CLIMCPServer
+from .servers.cli import CLIMCPServer
 
 class ChatInterface:
     """Interactive chat interface for MCP servers."""
@@ -142,6 +142,8 @@ class ChatInterface:
             await self._read_resource(args)
         elif cmd == '/generate':
             await self._generate_prompt(args)
+        elif cmd == '/memory':
+            await self._handle_memory_command(args)
         elif cmd == '/exit':
             self.running = False
         else:
@@ -157,6 +159,7 @@ class ChatInterface:
         print("  /call <tool_name> <args> - Call a tool (e.g., /call local:calculator '{\"operation\": \"add\", \"a\": 5, \"b\": 3}')")
         print("  /read <uri> - Read a resource (e.g., /read system://info)")
         print("  /generate <prompt_name> <args> - Generate a prompt")
+        print("  /memory <message> - Categorize and store memory (e.g., /memory \"I'm a software engineer\")")
         print("  /exit      - Exit the chat")
     
     def _show_tools(self):
@@ -256,6 +259,17 @@ class ChatInterface:
             return
         
         try:
+            # Check if tool exists
+            if tool_name not in self.multi_provider.tools:
+                print(f"❌ Tool '{tool_name}' not found.")
+                print("Available tools:")
+                for available_tool in self.multi_provider.tools.keys():
+                    print(f"  - {available_tool}")
+                print("\n💡 Tip: Make sure the server with this tool is running.")
+                if "local:" in tool_name:
+                    print("   For local tools, start the simple server with: python examples/simple_server.py")
+                return
+            
             result = await self.multi_provider.call_tool(tool_name, arguments)
             print(f"\nTool Result:")
             for content in result.content:
@@ -317,110 +331,93 @@ class ChatInterface:
         except Exception as e:
             print(f"Error generating prompt: {e}")
 
+    async def _handle_memory_command(self, message: str):
+        """Handle the /memory command to categorize and store memory using the new prompt."""
+        if not message.strip():
+            print("Usage: /memory <message>")
+            print("Example: /memory \"I'm a software engineer\"")
+            return
+        
+        try:
+            print(f"\n🧠 Processing memory: \"{message}\"")
+            
+            # Use the new memory categorization prompt
+            result = await self.multi_provider.generate_prompt(
+                "telegram:memory_categorization",
+                {"user_message": message}
+            )
+            
+            if result and result.messages:
+                # Get the prompt content
+                prompt_content = ""
+                for message in result.messages:
+                    for content in message.content:
+                        content_type, content_value = content
+                        if content_type == 'text':
+                            # Clean up the content - remove JSON wrapper if present
+                            if content_value.startswith('{') and '"content"' in content_value:
+                                try:
+                                    import json
+                                    parsed = json.loads(content_value)
+                                    prompt_content = parsed.get('content', content_value)
+                                except:
+                                    prompt_content = content_value
+                            else:
+                                prompt_content = content_value
+                
+                print(f"📋 Generated prompt:")
+                print("-" * 40)
+                print(prompt_content)
+                print("-" * 40)
+                
+                # Send the prompt to LLM for categorization
+                if self.llm_manager and self.llm_manager.has_provider():
+                    print(f"🤖 Sending to LLM for categorization...")
+                    llm_response = self.llm_manager.generate_response(prompt_content)
+                    
+                    # Clean up the response
+                    category = llm_response.strip().lower()
+                    valid_categories = ["profile", "preference", "context", "not_applicable"]
+                    
+                    if category in valid_categories:
+                        print(f"✅ Memory categorized as: {category.upper()}")
+                        print(f"📝 Original message: \"{message}\"")
+                        print(f"🏷️  Category: {category}")
+                        
+                        if category == "not_applicable":
+                            print(f"ℹ️  Message categorized as '{category}' - not stored (not applicable)")
+                        else:
+                            print(f"💾 Would store in: users/{{user_id}}/memories/{category}/")
+                    else:
+                        print(f"⚠️  LLM returned invalid category: '{category}'")
+                        print(f"🔍 Valid categories: {', '.join(valid_categories)}")
+                else:
+                    print(f"❌ LLM provider not available. Please check your 'config/llm_providers.yml' and ensure API keys are set.")
+                    print(f"📝 Message: \"{message}\"")
+                    print(f"🔍 Next step: Send this prompt to an LLM for categorization")
+                
+            else:
+                print(f"❌ Failed to generate memory categorization prompt")
+                
+        except Exception as e:
+            print(f"❌ Error processing memory: {e}")
+
     async def _process_natural_language_input(self, user_input: str):
         """
-        Uses the LLM to determine if the user's input is a tool call or a chat message.
+        Uses the LLM to handle natural language input directly.
         """
         print("\n🤔 Thinking...")
-        self.is_routing = True # Set flag to indicate we're in the routing phase
+        await self._handle_direct_llm_response(user_input)
 
-        # 1. Get the list of available tools in a structured format
-        tools_list = []
-        if self.multi_provider:
-            for tool_name, (_, tool_info) in self.multi_provider.tools.items():
-                tools_list.append({
-                    "name": tool_name,
-                    "description": tool_info.description,
-                    "input_schema": getattr(tool_info, 'input_schema', {}),
-                })
 
-        # 2. Create the routing system prompt
-        system_prompt = f"""
-You are a helpful AI assistant that functions as a routing engine. Your task is to analyze the user's request and determine if it can be fulfilled by one of the available tools, or if it's a general conversational query.
 
-Here are the available tools:
-```json
-{json.dumps(tools_list, indent=2)}
-```
-
-Based on the user's request, you must respond with a JSON object indicating your decision.
-Your response **MUST** be a single raw JSON object and nothing else.
-Your response MUST be in one of the following two formats.
-
-1.  **To call a tool**:
-    Respond with a JSON object like this. Fill in the tool name and arguments from the user's request.
-    ```json
-    {{
-        "intent": "tool_call",
-        "call": {{
-            "tool_name": "name-of-the-tool",
-            "arguments": {{
-                "arg1_name": "value1",
-                "arg2_name": "value2"
-            }}
-        }}
-    }}
-    ```
-
-2.  **For conversation**:
-    If the request is conversational, respond with this exact JSON:
-    ```json
-    {{
-        "intent": "chat"
-    }}
-    ```
-
-Here is an example of how to respond:
-
-If the user says: `run the command ls -l in my current directory`
-
-You should respond with the following raw JSON:
-```json
-{{
-    "intent": "tool_call",
-    "call": {{
-        "tool_name": "cli:run_command",
-        "arguments": {{
-            "command": "ls -l"
-        }}
-    }}
-}}
-```
-"""
-        # 3. Combine with user input and get the LLM's decision
-        full_prompt = f"{system_prompt}\n\nUser request: \"{user_input}\""
-        decision_str = self.llm_manager.generate_response(full_prompt)
-
-        # 4. Parse the decision
-        try:
-            # Try to find JSON block in case the LLM wraps it in markdown
-            if "```json" in decision_str:
-                decision_str = decision_str.split("```json")[1].split("```")[0].strip()
-
-            decision = json.loads(decision_str)
-            intent = decision.get("intent")
-
-            if intent == "tool_call":
-                call_details = decision.get("call", {})
-                tool_name = call_details.get("tool_name")
-                arguments = json.dumps(call_details.get("arguments", {}))
-                command_str = f"/call {tool_name} {arguments}"
-                print(f"✅ Understood! Running command: {command_str}")
-                await self._handle_command(command_str)
-            elif intent == "chat":
-                # If it's a chat, re-run the input for a conversational response
-                await self._chat_loop_entry(user_input)
-            else:
-                print(f"🤖 AI:\nI'm not sure how to handle that. The LLM returned an unknown intent: '{intent}'")
-                print(f"Raw response: {decision_str}")
-
-        except (json.JSONDecodeError, IndexError) as e:
-            print(f"🤖 AI:\nI received an unexpected response and couldn't parse the tool call. I'll treat this as a conversation.")
-            # If the response isn't valid JSON, treat it as a conversational response.
-            print(f"Raw response was:\n---\n{decision_str}\n---")
-            await self._chat_loop_entry(user_input)
-        finally:
-            self.is_routing = False # Reset the flag
+    async def _handle_direct_llm_response(self, user_input: str):
+        """Handle user input with direct LLM response."""
+        if self.llm_manager and self.llm_manager.has_provider():
+            response = self.llm_manager.generate_response(user_input)
+            print(f"\n🤖 AI:\n{response}")
+        else:
+            print("\nLLM provider is not configured. Please check your 'config/llm_providers.yml' and ensure API keys are set.")
 
     async def _chat_loop_entry(self, user_input: str):
         """A re-entry point for the chat loop to avoid recursion issues."""

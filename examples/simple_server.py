@@ -12,12 +12,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from simpli5.servers.fastmcp_server import FastMCPServer
 from simpli5.servers.examples import (
-    CalculatorTool, 
-    EchoTool, 
-    SystemInfoResource, 
-    FileResource,
-    GreetingPrompt,
-    GreetingTool
+    GreetingTool, CalculatorTool, EchoTool,
+    SystemInfoResource, FileResource, GreetingPrompt
 )
 
 def main():
@@ -25,9 +21,9 @@ def main():
     server = FastMCPServer("Simpli5 Example Server")
     
     # Add tools
+    server.add_tool(GreetingTool())
     server.add_tool(CalculatorTool())
     server.add_tool(EchoTool())
-    server.add_tool(GreetingTool())
     
     # Add resources
     server.add_resource(SystemInfoResource())

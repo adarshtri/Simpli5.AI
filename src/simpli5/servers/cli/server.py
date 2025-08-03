@@ -1,12 +1,13 @@
 import asyncio
 import os
 from typing import List
-from .fastmcp_server import FastMCPServer
-from ..host import (
-    ListServersTool, RunCommandTool, GetConfigTool, PingServerTool,
+from ..common import (
+    ListServersTool, GetConfigTool, PingServerTool,
     ConfigResource, ServersResource, SystemInfoResource, HelpResource,
     HelpPrompt, GreetingPrompt, CommandSuggestionPrompt
 )
+from .tools import RunCommandTool
+from ...servers.fastmcp_server import FastMCPServer
 
 class CLIMCPServer(FastMCPServer):
     """MCP server that exposes CLI functionality as tools, resources, and prompts."""
@@ -20,19 +21,21 @@ class CLIMCPServer(FastMCPServer):
         self._server_task = None
         self._running = False
         
-        # Register host tools
+        # Register common tools
         self.add_tool(ListServersTool())
-        self.add_tool(RunCommandTool())
         self.add_tool(GetConfigTool())
         self.add_tool(PingServerTool())
         
-        # Register host resources
+        # Register CLI-specific tools
+        self.add_tool(RunCommandTool())
+        
+        # Register common resources
         self.add_resource(ConfigResource())
         self.add_resource(ServersResource())
         self.add_resource(SystemInfoResource())
         self.add_resource(HelpResource())
         
-        # Register host prompts
+        # Register common prompts
         self.add_prompt(HelpPrompt())
         self.add_prompt(GreetingPrompt())
         self.add_prompt(CommandSuggestionPrompt())

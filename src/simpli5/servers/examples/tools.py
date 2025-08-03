@@ -1,8 +1,8 @@
 import json
 import os
 from datetime import datetime
-from typing import Dict, Any, List
-from .base import BaseTool, BaseResource, BasePrompt, ToolResult, ResourceResult
+from typing import Dict, Any
+from ..common.base import BaseTool, ToolResult
 
 class GreetingTool(BaseTool):
     """Simple greeting tool."""
@@ -46,7 +46,6 @@ class GreetingTool(BaseTool):
         
         greeting = greetings.get(time_of_day, "Hello")
         return ToolResult(f"{greeting}, {name}! How can I help you today?")
-    
 
 class CalculatorTool(BaseTool):
     """Simple calculator tool."""
@@ -110,106 +109,14 @@ class EchoTool(BaseTool):
         return {
             "type": "object",
             "properties": {
-                "message": {"type": "string"}
+                "message": {
+                    "type": "string",
+                    "description": "Message to echo back"
+                }
             },
             "required": ["message"]
         }
     
     async def execute(self, arguments: Dict[str, Any]) -> ToolResult:
         message = arguments["message"]
-        return ToolResult(f"Echo: {message}")
-
-class SystemInfoResource(BaseResource):
-    """System information resource."""
-    
-    @property
-    def uri(self) -> str:
-        return "system://info"
-    
-    @property
-    def name(self) -> str:
-        return "System Information"
-    
-    @property
-    def description(self) -> str:
-        return "Get current system information"
-    
-    async def read(self) -> ResourceResult:
-        info = {
-            "timestamp": datetime.now().isoformat(),
-            "platform": os.name,
-            "cwd": os.getcwd(),
-            "env_vars": list(os.environ.keys())
-        }
-        return ResourceResult(
-            content=json.dumps(info, indent=2),
-            mime_type="application/json"
-        )
-
-class FileResource(BaseResource):
-    """File reading resource."""
-    
-    def __init__(self, file_path: str):
-        self.file_path = file_path
-    
-    @property
-    def uri(self) -> str:
-        return f"file://{self.file_path}"
-    
-    @property
-    def name(self) -> str:
-        return f"File: {self.file_path}"
-    
-    @property
-    def description(self) -> str:
-        return f"Read content from {self.file_path}"
-    
-    async def read(self) -> ResourceResult:
-        try:
-            with open(self.file_path, 'r') as f:
-                content = f.read()
-            return ResourceResult(content=content, mime_type="text/plain")
-        except Exception as e:
-            return ResourceResult(content=f"Error reading file: {str(e)}", mime_type="text/plain")
-
-class GreetingPrompt(BasePrompt):
-    """Greeting prompt template."""
-    
-    @property
-    def name(self) -> str:
-        return "greeting"
-    
-    @property
-    def description(self) -> str:
-        return "Generate a personalized greeting"
-    
-    @property
-    def arguments(self) -> List[Dict[str, Any]]:
-        return [
-            {
-                "name": "name",
-                "description": "Name of the person to greet",
-                "type": "string",
-                "required": True
-            },
-            {
-                "name": "time_of_day",
-                "description": "Time of day (morning, afternoon, evening)",
-                "type": "string",
-                "required": False
-            }
-        ]
-    
-    async def generate(self, arguments: Dict[str, Any]) -> str:
-        name = arguments["name"]
-        time_of_day = arguments.get("time_of_day", "day")
-        
-        greetings = {
-            "morning": "Good morning",
-            "afternoon": "Good afternoon", 
-            "evening": "Good evening",
-            "day": "Hello"
-        }
-        
-        greeting = greetings.get(time_of_day, "Hello")
-        return f"{greeting}, {name}! How can I help you today?" 
+        return ToolResult(f"Echo: {message}") 

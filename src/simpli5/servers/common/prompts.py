@@ -1,9 +1,9 @@
 import json
 from typing import Dict, Any, List
-from ..servers.base import BasePrompt, PromptResult
+from .base import BasePrompt, PromptResult
 
 class HelpPrompt(BasePrompt):
-    """Prompt that provides help and guidance."""
+    """Prompt that generates help content."""
     
     @property
     def name(self) -> str:
@@ -11,7 +11,7 @@ class HelpPrompt(BasePrompt):
     
     @property
     def description(self) -> str:
-        return "Get help and guidance for CLI operations"
+        return "Generate help content for different topics"
     
     @property
     def input_schema(self) -> Dict[str, Any]:
@@ -20,8 +20,8 @@ class HelpPrompt(BasePrompt):
             "properties": {
                 "topic": {
                     "type": "string",
-                    "description": "Topic to get help for (tools, resources, prompts, servers, general)",
-                    "enum": ["tools", "resources", "prompts", "servers", "general"],
+                    "description": "Help topic (general, tools, resources, servers, prompts)",
+                    "enum": ["general", "tools", "resources", "servers", "prompts"],
                     "default": "general"
                 }
             },
@@ -34,8 +34,8 @@ class HelpPrompt(BasePrompt):
             {
                 "name": "topic",
                 "type": "string",
-                "description": "Topic to get help for (tools, resources, prompts, servers, general)",
-                "enum": ["tools", "resources", "prompts", "servers", "general"],
+                "description": "Help topic",
+                "enum": ["general", "tools", "resources", "servers", "prompts"],
                 "default": "general",
                 "required": False
             }
@@ -45,161 +45,88 @@ class HelpPrompt(BasePrompt):
         topic = arguments.get("topic", "general")
         
         help_content = {
-            "general": """# Simpli5.AI CLI - General Help
+            "general": """# Simpli5.AI Help
 
-Welcome to Simpli5.AI CLI! This is an extensible chat interface that connects to multiple MCP (Model Context Protocol) servers.
+## Available Commands:
+- `/help` - Show this help
+- `/tools` - List available tools
+- `/resources` - List available resources
+- `/prompts` - List available prompts
+- `/call <tool> <args>` - Call a tool
+- `/read <resource>` - Read a resource
+- `/generate <prompt> <args>` - Generate content with a prompt
+- `/memory <message>` - Categorize and store memory
+- `/exit` - Quit the chat interface
 
-## Quick Start
-1. Use `/tools` to see available tools
-2. Use `/resources` to see available resources
-3. Use `/prompts` to see available prompts
-4. Use `/call <tool_name> <args>` to execute tools
-5. Use `/read <resource_uri>` to read resources
-6. Use `/generate <prompt_name> <args>` to use prompts
+## Examples:
+```bash
+# Call a tool
+/call cli:run_command {"command": "ls -la"}
 
-## Key Features
-- **Multi-server support**: Connect to multiple MCP servers simultaneously
-- **Interactive chat**: Natural conversation interface with commands
-- **Tool execution**: Call tools from any connected server
-- **Resource access**: Read files, configurations, and other resources
-- **Prompt templates**: Use predefined prompts for common tasks
+# Read a resource
+/read config://config
 
-## Getting Help
-- `/help` - Show this help message
-- `/list-servers` - See configured servers
-- Use specific help topics: `/generate help {\"topic\": \"tools\"}`""",
+# Generate content
+/generate greeting {"name": "Alice"}
+```""",
             
             "tools": """# Tools Help
 
-## What are Tools?
-Tools are functions that can be executed to perform specific tasks. They can come from:
-- The CLI itself (host tools)
-- Connected MCP servers
+## Available Tools:
+- `cli:run_command` - Execute system commands
+- `cli:list_servers` - List configured servers
+- `cli:get_config` - Get configuration info
+- `cli:ping_server` - Test server connectivity
 
-## Using Tools
-```
-/call <tool_name> <arguments>
-```
-
-## Examples
-```
-/call calculator_add {\"a\": 5, \"b\": 3}
-/call list_servers {}
-/call run_command {\"command\": \"ls -la\"}
-```
-
-## Host Tools (Built-in)
-- `list_servers` - List configured MCP servers
-- `run_command` - Execute system commands
-- `get_config` - Get CLI configuration
-- `ping_server` - Test server connectivity
-
-## Server Tools
-Tools from MCP servers are prefixed with the server name:
-```
-/call math:add {\"a\": 5, \"b\": 3}
-/call file:read {\"path\": \"/path/to/file.txt\"}
+## Usage:
+```bash
+/call cli:run_command {"command": "ls -la"}
+/call cli:list_servers {}
+/call cli:get_config {"section": "servers"}
+/call cli:ping_server {"server_id": "local"}
 ```""",
             
             "resources": """# Resources Help
 
-## What are Resources?
-Resources are data sources that can be read, such as:
-- Files on the filesystem
-- Configuration data
-- System information
-- Network resources
-
-## Using Resources
-```
-/read <resource_uri>
-```
-
-## Examples
-```
-/read file:///path/to/file.txt
-/read config://servers
-/read system://info
-```
-
-## Host Resources (Built-in)
+## Available Resources:
 - `config://config` - CLI configuration
-- `config://servers` - Server information
 - `system://info` - System information
 - `help://help` - Help documentation
 
-## Server Resources
-Resources from MCP servers use their own URI schemes:
-```
-/read file:///path/to/file.txt
-/read http://example.com/data.json
-```""",
-            
-            "prompts": """# Prompts Help
-
-## What are Prompts?
-Prompts are templates that help you interact with the system more effectively. They provide:
-- Structured input formats
-- Common task templates
-- Guidance for complex operations
-
-## Using Prompts
-```
-/generate <prompt_name> <arguments>
-```
-
-## Examples
-```
-/generate help {\"topic\": \"tools\"}
-/generate greeting {\"name\": \"Alice\"}
-```
-
-## Host Prompts (Built-in)
-- `help` - Get help on various topics
-- `greeting` - Generate a greeting message
-- `command_suggestion` - Get command suggestions
-
-## Server Prompts
-Prompts from MCP servers are prefixed with the server name:
-```
-/generate ai:summarize {\"text\": \"Long text to summarize\"}
+## Usage:
+```bash
+/read config://config
+/read system://info
+/read help://help
 ```""",
             
             "servers": """# Servers Help
 
-## What are MCP Servers?
-MCP (Model Context Protocol) servers provide tools, resources, and prompts that extend the CLI's capabilities.
+## Server Management:
+- List servers: `/call cli:list_servers {}`
+- Ping server: `/call cli:ping_server {"server_id": "server_name"}`
+- Get server config: `/call cli:get_config {"section": "servers"}`
 
-## Managing Servers
-```
-/list-servers - List all configured servers
-/add-server <id> <name> <url> <description> - Add a new server
-/remove-server <id> - Remove a server
-/enable-server <id> - Enable a server
-/disable-server <id> - Disable a server
-```
+## Server Types:
+- **CLI Server**: Local command execution and system tools
+- **Telegram Server**: Telegram bot functionality
+- **Example Server**: Example tools and resources
 
-## Server Configuration
-Servers are configured in `~/.simpli5/config.yml`:
-```yaml
-servers:
-  math:
-    name: "Math Server"
-    url: "http://localhost:8000"
-    description: "Mathematical operations"
-    enabled: true
-```
+## Configuration:
+Servers are configured in `config/mcp_servers.yml`""",
+            
+            "prompts": """# Prompts Help
 
-## Using Server Capabilities
-Once connected, server capabilities are available with server prefixes:
-- Tools: `/call server:tool_name <args>`
-- Resources: `/read server://resource_uri`
-- Prompts: `/generate server:prompt_name <args>`
+## Available Prompts:
+- `help` - Generate help content
+- `greeting` - Generate greeting messages
+- `command_suggestion` - Suggest CLI commands
 
-## Testing Connectivity
-Use the ping tool to test server connectivity:
-```
-/call ping_server {\"server_id\": \"math\"}
+## Usage:
+```bash
+/generate help {"topic": "tools"}
+/generate greeting {"name": "Alice", "style": "formal"}
+/generate command_suggestion {"intent": "run a command"}
 ```"""
         }
         
@@ -402,6 +329,9 @@ class CommandSuggestionPrompt(BasePrompt):
                 "/list-servers - List configured servers"
             ]
         
-        result = f"Based on your intent: '{intent}'\n\nSuggested commands:\n" + "\n".join(f"- {s}" for s in suggestions)
+        result = f"Based on your intent: '{intent}'\n\nSuggested commands:\n" + "\n".join(suggestions)
+        
+        if context:
+            result += f"\n\nContext: {context}"
         
         return PromptResult(result) 
