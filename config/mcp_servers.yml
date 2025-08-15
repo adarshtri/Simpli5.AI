@@ -1,18 +1,34 @@
 servers:
-  local:
-    name: "Local Development Server"
-    url: "http://localhost:8000/mcp"
-    description: "Local test server with calculator and file tools"
-    enabled: true
-  
-  example:
-    name: "Example Weather Server"
+  # HTTP-based servers (external)
+  weather:
+    name: "Weather MCP Server"
+    transport: "http"
     url: "https://mcp.pipedream.net/159d4d25-8d02-444d-972f-9671d4b6e55d/openweather_api"
     description: "Weather data and forecasts"
     enabled: true
-  
-  telegram:
-    name: "Telegram Bot Server"
-    url: "http://localhost:8002/mcp"
-    description: "Telegram bot functionality including memory categorization"
+
+  # STDIO-based servers (no ports needed!)
+  calculator:
+    name: "Calculator Server"
+    transport: "stdio"
+    command: "python3"
+    args: ["src/simpli5/servers/calculator_server.py"]
+    description: "Mathematical calculations and operations"
     enabled: true 
+  
+  meme:
+    name: "Meme Generator"
+    transport: "stdio"
+    command: "npx"
+    args: ["-y", "meme-mcp"]
+    env:
+      IMGFLIP_USERNAME: "AdarshTrivedi"
+      IMGFLIP_PASSWORD: "lychee1234"
+  
+  job_agent:
+    name: "Job Agent Server"
+    transport: "stdio"
+    command: "python3"
+    args: ["src/simpli5/servers/job_agent_server.py"]
+    description: "Job-related operations and message storage"
+    enabled: true

@@ -11,7 +11,7 @@ Prerequisites:
 3. Have a public HTTPS URL for the webhook (you can use ngrok for testing)
 
 Usage:
-    python examples/telegram_webhook_example.py
+    python scripts/telegram_webhook_example.py
 """
 
 import asyncio

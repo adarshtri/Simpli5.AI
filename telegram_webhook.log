@@ -1,0 +1,920 @@
+2025-08-14 22:20:21,976 - simpli5.webhook.telegram_webhook - INFO - Firebase initialized successfully
+2025-08-14 22:20:22,224 - simpli5.webhook.telegram_webhook - INFO - LLM provider initialized successfully
+2025-08-14 22:20:22,224 - simpli5.webhook.telegram_webhook - INFO - Multi-Agent Controller initialized successfully with 2 agents
+2025-08-14 22:20:22,840 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/setWebhook "HTTP/1.1 200 OK"
+2025-08-14 22:20:22,842 - simpli5.webhook.telegram_webhook - INFO - Webhook set to: https://2fe004b02612.ngrok-free.app
+2025-08-14 22:20:32,100 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 22:20:32,100 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'Save this job https://explore.jobs.netflix.net/careers/job/790303921515'
+2025-08-14 22:20:32,589 - simpli5.providers.mcp.stdio_client - INFO - Added MCP server 'job_agent': python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 22:20:32,590 - simpli5.providers.mcp.stdio_client - INFO - Starting MCP server: python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 22:20:33,411 - simpli5.providers.mcp.stdio_client - INFO - MCP STDIO connection established successfully
+2025-08-14 22:20:33,412 - simpli5.providers.mcp.stdio_client - INFO - Connected to MCP server 'job_agent'
+2025-08-14 22:20:33,412 - simpli5.providers.mcp.stdio_client - INFO - Connected to 1 MCP servers via STDIO
+2025-08-14 22:20:34,257 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 22:20:35,043 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 22:20:35,045 - simpli5.webhook.telegram_webhook - ERROR - Multi-agent controller error: 'message'
+2025-08-14 22:20:35,542 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 22:20:35,544 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'It seems like you've found a job that caught your eye! That Netflix job posting looks interesting. Have you applied for it before or is this the first time you're considering this opportunity?'
+2025-08-14 22:20:36,163 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 22:20:36,164 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 22:31:46,581 - asyncio - ERROR - an error occurred during closing of asynchronous generator <async_generator object stdio_client at 0x106892480>
+asyncgen: <async_generator object stdio_client at 0x106892480>
+  + Exception Group Traceback (most recent call last):
+  |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 772, in __aexit__
+  |     raise BaseExceptionGroup(
+  | BaseExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 179, in stdio_client
+    |     yield read_stream, write_stream
+    | GeneratorExit
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 173, in stdio_client
+    anyio.create_task_group() as tg,
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 778, in __aexit__
+    if self.cancel_scope.__exit__(type(exc), exc, exc.__traceback__):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 457, in __exit__
+    raise RuntimeError(
+RuntimeError: Attempted to exit cancel scope in a different task than it was entered in
+2025-08-14 22:31:49,576 - simpli5.webhook.telegram_webhook - INFO - Firebase initialized successfully
+2025-08-14 22:31:49,808 - simpli5.webhook.telegram_webhook - INFO - LLM provider initialized successfully
+2025-08-14 22:31:49,808 - simpli5.webhook.telegram_webhook - INFO - Multi-Agent Controller initialized successfully with 2 agents
+2025-08-14 22:31:50,510 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/setWebhook "HTTP/1.1 200 OK"
+2025-08-14 22:31:50,511 - simpli5.webhook.telegram_webhook - INFO - Webhook set to: https://2fe004b02612.ngrok-free.app
+2025-08-14 22:32:02,375 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 22:32:02,375 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'Save this job https://explore.jobs.netflix.net/careers/job/790303921515'
+2025-08-14 22:32:02,831 - simpli5.providers.mcp.stdio_client - INFO - Added MCP server 'job_agent': python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 22:32:02,831 - simpli5.providers.mcp.stdio_client - INFO - Starting MCP server: python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 22:32:03,987 - simpli5.providers.mcp.stdio_client - INFO - MCP STDIO connection established successfully
+2025-08-14 22:32:03,987 - simpli5.providers.mcp.stdio_client - INFO - Connected to MCP server 'job_agent'
+2025-08-14 22:32:03,987 - simpli5.providers.mcp.stdio_client - INFO - Connected to 1 MCP servers via STDIO
+2025-08-14 22:32:05,086 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 22:32:05,695 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 22:32:05,697 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'store_job_message' with arguments: {'user_id': '5718455414', 'original_message': 'Save this job https://explore.jobs.netflix.net/careers/job/790303921515', 'extracted_job_link': 'https://explore.jobs.netflix.net/careers/job/790303921515', 'metadata': {'source': 'netflix'}}
+2025-08-14 22:32:06,105 - simpli5.webhook.telegram_webhook - ERROR - Multi-agent controller error: 'message'
+2025-08-14 22:32:06,718 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 22:32:06,719 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'You're looking for a new job opportunity! That's exciting. I've saved the link to the job posting at Netflix: https://explore.jobs.netflix.net/careers/job/790303921515 for you. Have you thought about what skills or experience you'd like to highlight in your application?'
+2025-08-14 22:32:07,383 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 22:32:07,384 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 22:34:37,910 - asyncio - ERROR - an error occurred during closing of asynchronous generator <async_generator object stdio_client at 0x106b72200>
+asyncgen: <async_generator object stdio_client at 0x106b72200>
+  + Exception Group Traceback (most recent call last):
+  |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 772, in __aexit__
+  |     raise BaseExceptionGroup(
+  | BaseExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 179, in stdio_client
+    |     yield read_stream, write_stream
+    | GeneratorExit
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 173, in stdio_client
+    anyio.create_task_group() as tg,
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 778, in __aexit__
+    if self.cancel_scope.__exit__(type(exc), exc, exc.__traceback__):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 457, in __exit__
+    raise RuntimeError(
+RuntimeError: Attempted to exit cancel scope in a different task than it was entered in
+2025-08-14 22:34:40,768 - simpli5.webhook.telegram_webhook - INFO - Firebase initialized successfully
+2025-08-14 22:34:40,967 - simpli5.webhook.telegram_webhook - INFO - LLM provider initialized successfully
+2025-08-14 22:34:40,967 - simpli5.webhook.telegram_webhook - INFO - Multi-Agent Controller initialized successfully with 2 agents
+2025-08-14 22:34:41,557 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/setWebhook "HTTP/1.1 200 OK"
+2025-08-14 22:34:41,558 - simpli5.webhook.telegram_webhook - INFO - Webhook set to: https://2fe004b02612.ngrok-free.app
+2025-08-14 22:34:50,840 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 22:34:50,840 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'Save this job https://explore.jobs.netflix.net/careers/job/790303921515'
+2025-08-14 22:34:51,518 - simpli5.providers.mcp.stdio_client - INFO - Added MCP server 'job_agent': python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 22:34:51,519 - simpli5.providers.mcp.stdio_client - INFO - Starting MCP server: python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 22:34:52,726 - simpli5.providers.mcp.stdio_client - INFO - MCP STDIO connection established successfully
+2025-08-14 22:34:52,726 - simpli5.providers.mcp.stdio_client - INFO - Connected to MCP server 'job_agent'
+2025-08-14 22:34:52,726 - simpli5.providers.mcp.stdio_client - INFO - Connected to 1 MCP servers via STDIO
+2025-08-14 22:34:53,421 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 22:34:53,983 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 22:34:53,985 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'store_job_message' with arguments: {'user_id': '5718455414', 'original_message': 'Save this job https://explore.jobs.netflix.net/careers/job/790303921515', 'extracted_job_link': 'https://explore.jobs.netflix.net/careers/job/790303921515', 'metadata': {}}
+2025-08-14 22:34:54,347 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'I'll save this Netflix job posting for you! You can access it later from your job dashboard.'
+2025-08-14 22:34:55,045 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 22:34:55,046 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 22:35:49,843 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 22:35:49,844 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'list all my saved jobs'
+2025-08-14 22:35:50,272 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 22:35:50,867 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 22:35:50,868 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'get_job_messages' with arguments: {'user_id': '5718455414', 'limit': 50}
+2025-08-14 22:35:50,991 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'I'm retrieving a list of your saved jobs. Please wait a moment...'
+2025-08-14 22:35:51,734 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 22:35:51,735 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 22:52:17,408 - asyncio - ERROR - an error occurred during closing of asynchronous generator <async_generator object stdio_client at 0x1072da480>
+asyncgen: <async_generator object stdio_client at 0x1072da480>
+  + Exception Group Traceback (most recent call last):
+  |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 772, in __aexit__
+  |     raise BaseExceptionGroup(
+  | BaseExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 179, in stdio_client
+    |     yield read_stream, write_stream
+    | GeneratorExit
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 173, in stdio_client
+    anyio.create_task_group() as tg,
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 778, in __aexit__
+    if self.cancel_scope.__exit__(type(exc), exc, exc.__traceback__):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 457, in __exit__
+    raise RuntimeError(
+RuntimeError: Attempted to exit cancel scope in a different task than it was entered in
+2025-08-14 22:52:51,065 - simpli5.webhook.telegram_webhook - INFO - Firebase initialized successfully
+2025-08-14 22:52:51,322 - simpli5.webhook.telegram_webhook - INFO - LLM provider initialized successfully
+2025-08-14 22:52:51,322 - simpli5.webhook.telegram_webhook - INFO - Multi-Agent Controller initialized successfully with 2 agents
+2025-08-14 22:52:52,048 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/setWebhook "HTTP/1.1 200 OK"
+2025-08-14 22:52:52,049 - simpli5.webhook.telegram_webhook - INFO - Webhook set to: https://2fe004b02612.ngrok-free.app
+2025-08-14 22:53:04,424 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 22:53:04,425 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'Save this job https://explore.jobs.netflix.net/careers/job/790303921515'
+2025-08-14 22:53:05,028 - simpli5.providers.mcp.stdio_client - INFO - Added MCP server 'job_agent': python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 22:53:05,029 - simpli5.providers.mcp.stdio_client - INFO - Starting MCP server: python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 22:53:06,196 - simpli5.providers.mcp.stdio_client - INFO - MCP STDIO connection established successfully
+2025-08-14 22:53:06,196 - simpli5.providers.mcp.stdio_client - INFO - Connected to MCP server 'job_agent'
+2025-08-14 22:53:06,197 - simpli5.providers.mcp.stdio_client - INFO - Connected to 1 MCP servers via STDIO
+2025-08-14 22:53:06,931 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 22:53:07,647 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 22:53:07,652 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'store_job_message' with arguments: {'user_id': '5718455414', 'original_message': 'Save this job https://explore.jobs.netflix.net/careers/job/790303921515', 'extracted_job_link': 'https://explore.jobs.netflix.net/careers/job/790303921515', 'metadata': {}}
+2025-08-14 22:53:08,031 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: '{'name': 'JobAgent', 'reason': 'This message is a job posting link, which is a common request in job search activities, and the JobAgent is specifically designed to handle job-related messages, applications, career discussions, and job search activities, making it the most appropriate agent to handle this message.', 'response': {'status': 'success', 'message': "I've successfully saved this Netflix job for you! You can now view and manage all your saved jobs using our job search dashboard.", 'intent': 'store job for later application', 'tool_results': {'tool_0_job_agent:store_job_message': {'meta': None, 'content': [{'type': 'text', 'text': 'Job message stored successfully', 'annotations': None}], 'isError': False}}, 'metadata': {}}}'
+2025-08-14 22:53:08,668 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 22:53:08,671 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 22:53:26,055 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 22:53:26,056 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'list all my saved jobs'
+2025-08-14 22:53:26,513 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 22:53:26,994 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 22:53:26,996 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'get_job_messages' with arguments: {'user_id': '5718455414', 'limit': 100}
+2025-08-14 22:53:27,135 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: '{'name': 'JobAgent', 'reason': "This message specifically asks for a list of saved jobs, which is a job-related activity that directly matches the JobAgent's specialization in job-related messages and career discussions, such as job search activities and job application tracking.", 'response': {'status': 'success', 'message': "I'll retrieve your saved job postings for you. You can then browse and review them as needed.", 'intent': 'retrieve list of saved job postings', 'tool_results': {'tool_0_job_agent:get_job_messages': {'meta': None, 'content': [{'type': 'text', 'text': '{\n  "success": true,\n  "messages": [\n    {\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {},\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:53:07.657077Z",\n      "user_id": "5718455414",\n      "id": "eSmOI1JsbzWj5RY7ZCEk"\n    },\n    {\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {},\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:34:53.990160Z",\n      "user_id": "5718455414",\n      "id": "rcybf4ErhLknf06hIeRR"\n    },\n    {\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {\n        "source": "netflix"\n      },\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:32:05.703567Z",\n      "user_id": "5718455414",\n      "id": "XeujjMtjIPNLbeTZgHD6"\n    },\n    {\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {},\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:16:01.917056Z",\n      "user_id": "5718455414",\n      "id": "IUtVtUUdo50nyPlPGQ2t"\n    },\n    {\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {},\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T04:40:16.693790Z",\n      "user_id": "5718455414",\n      "id": "7g0zQZm378xm8Rl7tU0u"\n    },\n    {\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {},\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T04:40:14.793159Z",\n      "user_id": "5718455414",\n      "id": "lxHNAFUKfddlXRcjjDJM"\n    },\n    {\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {},\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T04:23:05.434636Z",\n      "user_id": "5718455414",\n      "id": "JAMw5rmXFPnzaBnkLQmq"\n    }\n  ],\n  "count": 7\n}', 'annotations': None}], 'isError': False}}, 'metadata': {}}}'
+2025-08-14 22:53:27,782 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 22:53:27,784 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 22:59:49,737 - asyncio - ERROR - an error occurred during closing of asynchronous generator <async_generator object stdio_client at 0x11345e0c0>
+asyncgen: <async_generator object stdio_client at 0x11345e0c0>
+  + Exception Group Traceback (most recent call last):
+  |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 772, in __aexit__
+  |     raise BaseExceptionGroup(
+  | BaseExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 179, in stdio_client
+    |     yield read_stream, write_stream
+    | GeneratorExit
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 173, in stdio_client
+    anyio.create_task_group() as tg,
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 778, in __aexit__
+    if self.cancel_scope.__exit__(type(exc), exc, exc.__traceback__):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 457, in __exit__
+    raise RuntimeError(
+RuntimeError: Attempted to exit cancel scope in a different task than it was entered in
+2025-08-14 22:59:52,787 - simpli5.webhook.telegram_webhook - INFO - Firebase initialized successfully
+2025-08-14 22:59:53,018 - simpli5.webhook.telegram_webhook - INFO - LLM provider initialized successfully
+2025-08-14 22:59:53,018 - simpli5.webhook.telegram_webhook - INFO - Multi-Agent Controller initialized successfully with 2 agents
+2025-08-14 22:59:53,616 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/setWebhook "HTTP/1.1 200 OK"
+2025-08-14 22:59:53,617 - simpli5.webhook.telegram_webhook - INFO - Webhook set to: https://2fe004b02612.ngrok-free.app
+2025-08-14 23:00:04,526 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:00:04,526 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'list all my saved jobs'
+2025-08-14 23:00:04,972 - simpli5.providers.mcp.stdio_client - INFO - Added MCP server 'job_agent': python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 23:00:04,972 - simpli5.providers.mcp.stdio_client - INFO - Starting MCP server: python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 23:00:05,767 - simpli5.providers.mcp.stdio_client - INFO - MCP STDIO connection established successfully
+2025-08-14 23:00:05,767 - simpli5.providers.mcp.stdio_client - INFO - Connected to MCP server 'job_agent'
+2025-08-14 23:00:05,768 - simpli5.providers.mcp.stdio_client - INFO - Connected to 1 MCP servers via STDIO
+2025-08-14 23:00:06,377 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:00:06,868 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:00:06,871 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'get_job_messages' with arguments: {'user_id': '5718455414'}
+2025-08-14 23:00:08,353 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:00:08,357 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: '{'name': 'JobAgent', 'reason': 'This message explicitly requests to list saved jobs, which is a clear indication of a job search or job-related activity, making the JobAgent the most suitable and obvious choice to handle this message.', 'response': {'status': 'success', 'message': 'I see you asked me to "list all my saved jobs". I\'ve retrieved your saved job messages for you!\n\nIt looks like you\'ve saved 7 jobs from Netflix. Here\'s a list of them:\n\n1. Netflix Job: 790303921515 (timestamp: 2025-08-15 05:53:07)\n2. Netflix Job: 790303921515 (timestamp: 2025-08-15 05:34:53)\n3. Netflix Job: 790303921515 (timestamp: 2025-08-15 05:32:05)\n4. Netflix Job: 790303921515 (timestamp: 2025-08-15 05:16:01)\n5. Netflix Job: 790303921515 (timestamp: 2025-08-15 04:40:16)\n6. Netflix Job: 790303921515 (timestamp: 2025-08-15 04:40:14)\n7. Netflix Job: 790303921515 (timestamp: 2025-08-15 04:23:05)\n\nThese jobs all seem to be the same one. If you want to view or apply to these jobs again, you can access the links by clicking on them.', 'intent': 'list all saved jobs for later review', 'tool_results': {'tool_0_job_agent:get_job_messages': {'meta': None, 'content': [{'type': 'text', 'text': '{\n  "success": true,\n  "messages": [\n    {\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {},\n      "user_id": "5718455414",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:53:07.657077Z",\n      "id": "eSmOI1JsbzWj5RY7ZCEk"\n    },\n    {\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {},\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "user_id": "5718455414",\n      "timestamp": "2025-08-15T05:34:53.990160Z",\n      "id": "rcybf4ErhLknf06hIeRR"\n    },\n    {\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {\n        "source": "netflix"\n      },\n      "user_id": "5718455414",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:32:05.703567Z",\n      "id": "XeujjMtjIPNLbeTZgHD6"\n    },\n    {\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {},\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "user_id": "5718455414",\n      "timestamp": "2025-08-15T05:16:01.917056Z",\n      "id": "IUtVtUUdo50nyPlPGQ2t"\n    },\n    {\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {},\n      "user_id": "5718455414",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T04:40:16.693790Z",\n      "id": "7g0zQZm378xm8Rl7tU0u"\n    },\n    {\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {},\n      "user_id": "5718455414",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T04:40:14.793159Z",\n      "id": "lxHNAFUKfddlXRcjjDJM"\n    },\n    {\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {},\n      "user_id": "5718455414",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T04:23:05.434636Z",\n      "id": "JAMw5rmXFPnzaBnkLQmq"\n    }\n  ],\n  "count": 7\n}', 'annotations': None}], 'isError': False}}, 'metadata': {}}}'
+2025-08-14 23:00:09,009 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:00:09,010 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:03:04,412 - asyncio - ERROR - an error occurred during closing of asynchronous generator <async_generator object stdio_client at 0x11183e0c0>
+asyncgen: <async_generator object stdio_client at 0x11183e0c0>
+  + Exception Group Traceback (most recent call last):
+  |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 772, in __aexit__
+  |     raise BaseExceptionGroup(
+  | BaseExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 179, in stdio_client
+    |     yield read_stream, write_stream
+    | GeneratorExit
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 173, in stdio_client
+    anyio.create_task_group() as tg,
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 778, in __aexit__
+    if self.cancel_scope.__exit__(type(exc), exc, exc.__traceback__):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 457, in __exit__
+    raise RuntimeError(
+RuntimeError: Attempted to exit cancel scope in a different task than it was entered in
+2025-08-14 23:03:07,380 - simpli5.webhook.telegram_webhook - INFO - Firebase initialized successfully
+2025-08-14 23:03:07,619 - simpli5.webhook.telegram_webhook - INFO - LLM provider initialized successfully
+2025-08-14 23:03:07,619 - simpli5.webhook.telegram_webhook - INFO - Multi-Agent Controller initialized successfully with 2 agents
+2025-08-14 23:03:08,231 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/setWebhook "HTTP/1.1 200 OK"
+2025-08-14 23:03:08,233 - simpli5.webhook.telegram_webhook - INFO - Webhook set to: https://2fe004b02612.ngrok-free.app
+2025-08-14 23:03:40,650 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:03:40,651 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'list all my saved jobs'
+2025-08-14 23:03:41,318 - simpli5.providers.mcp.stdio_client - INFO - Added MCP server 'job_agent': python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 23:03:41,318 - simpli5.providers.mcp.stdio_client - INFO - Starting MCP server: python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 23:03:42,576 - simpli5.providers.mcp.stdio_client - INFO - MCP STDIO connection established successfully
+2025-08-14 23:03:42,576 - simpli5.providers.mcp.stdio_client - INFO - Connected to MCP server 'job_agent'
+2025-08-14 23:03:42,577 - simpli5.providers.mcp.stdio_client - INFO - Connected to 1 MCP servers via STDIO
+2025-08-14 23:03:43,232 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:03:43,236 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'No suitable agent found to handle this message.'
+2025-08-14 23:03:43,901 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:03:43,902 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:03:52,364 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:03:52,365 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'list all my saved jobs'
+2025-08-14 23:03:52,864 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:03:52,866 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'No suitable agent found to handle this message.'
+2025-08-14 23:03:53,692 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:03:53,693 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:04:04,756 - asyncio - ERROR - an error occurred during closing of asynchronous generator <async_generator object stdio_client at 0x1081e2200>
+asyncgen: <async_generator object stdio_client at 0x1081e2200>
+  + Exception Group Traceback (most recent call last):
+  |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 772, in __aexit__
+  |     raise BaseExceptionGroup(
+  | BaseExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 179, in stdio_client
+    |     yield read_stream, write_stream
+    | GeneratorExit
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 173, in stdio_client
+    anyio.create_task_group() as tg,
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 778, in __aexit__
+    if self.cancel_scope.__exit__(type(exc), exc, exc.__traceback__):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 457, in __exit__
+    raise RuntimeError(
+RuntimeError: Attempted to exit cancel scope in a different task than it was entered in
+2025-08-14 23:04:09,166 - simpli5.webhook.telegram_webhook - INFO - Firebase initialized successfully
+2025-08-14 23:04:09,384 - simpli5.webhook.telegram_webhook - INFO - LLM provider initialized successfully
+2025-08-14 23:04:09,384 - simpli5.webhook.telegram_webhook - INFO - Multi-Agent Controller initialized successfully with 2 agents
+2025-08-14 23:04:09,971 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/setWebhook "HTTP/1.1 200 OK"
+2025-08-14 23:04:09,972 - simpli5.webhook.telegram_webhook - INFO - Webhook set to: https://2fe004b02612.ngrok-free.app
+2025-08-14 23:04:12,536 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:04:12,536 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'list all my saved jobs'
+2025-08-14 23:04:12,974 - simpli5.providers.mcp.stdio_client - INFO - Added MCP server 'job_agent': python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 23:04:12,975 - simpli5.providers.mcp.stdio_client - INFO - Starting MCP server: python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 23:04:13,767 - simpli5.providers.mcp.stdio_client - INFO - MCP STDIO connection established successfully
+2025-08-14 23:04:13,767 - simpli5.providers.mcp.stdio_client - INFO - Connected to MCP server 'job_agent'
+2025-08-14 23:04:13,767 - simpli5.providers.mcp.stdio_client - INFO - Connected to 1 MCP servers via STDIO
+2025-08-14 23:04:14,418 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:04:15,010 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:04:15,012 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'get_job_messages' with arguments: {'user_id': '5718455414', 'limit': 50}
+2025-08-14 23:04:16,210 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:04:16,215 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: '{'name': 'JobAgent', 'reason': "This message 'list all my saved jobs' specifies job-related activities, which directly matches the JobAgent's specialization in handling job-related messages, applications, and job search activities.", 'response': {'status': 'success', 'message': "I've retrieved your saved job messages. Let me summarize what I found!\n\nI located 7 saved job messages for you. Each message was logged along with the timestamp it was saved and the job link.\n\nHere's a list of the saved jobs you sent me:\n\n* Save this job: https://explore.jobs.netflix.net/careers/job/790303921515 (timestamp: 2025-08-15T05:53:07.657077Z, id: eSmOI1JsbzWj5RY7ZCEk)\n* Save this job: https://explore.jobs.netflix.net/careers/job/790303921515 (timestamp: 2025-08-15T05:34:53.990160Z, id: rcybf4ErhLknf06hIeRR)\n* Save this job: https://explore.jobs.netflix.net/careers/job/790303921515 (timestamp: 2025-08-15T05:32:05.703567Z, id: XeujjMtjIPNLbeTZgHD6)\n* Save this job: https://explore.jobs.netflix.net/careers/job/790303921515 (timestamp: 2025-08-15T05:16:01.917056Z, id: IUtVtUUdo50nyPlPGQ2t)\n* Save this job: https://explore.jobs.netflix.net/careers/job/790303921515 (timestamp: 2025-08-15T04:40:16.693790Z, id: 7g0zQZm378xm8Rl7tU0u)\n* Save this job: https://explore.jobs.netflix.net/careers/job/790303921515 (timestamp: 2025-08-15T04:40:14.793159Z, id: lxHNAFUKfddlXRcjjDJM)\n* Save this job: https://explore.jobs.netflix.net/careers/job/790303921515 (timestamp: 2025-08-15T04:23:05.434636Z, id: JAMw5rmXFPnzaBnkLQmq)\n\nThese jobs are saved in your profile. You can easily access them whenever you need to refer back to them.", 'intent': 'list all saved jobs for this user', 'tool_results': {'tool_0_job_agent:get_job_messages': {'meta': None, 'content': [{'type': 'text', 'text': '{\n  "success": true,\n  "messages": [\n    {\n      "user_id": "5718455414",\n      "metadata": {},\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:53:07.657077Z",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "id": "eSmOI1JsbzWj5RY7ZCEk"\n    },\n    {\n      "user_id": "5718455414",\n      "metadata": {},\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:34:53.990160Z",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "id": "rcybf4ErhLknf06hIeRR"\n    },\n    {\n      "user_id": "5718455414",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:32:05.703567Z",\n      "metadata": {\n        "source": "netflix"\n      },\n      "id": "XeujjMtjIPNLbeTZgHD6"\n    },\n    {\n      "user_id": "5718455414",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:16:01.917056Z",\n      "metadata": {},\n      "id": "IUtVtUUdo50nyPlPGQ2t"\n    },\n    {\n      "user_id": "5718455414",\n      "metadata": {},\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T04:40:16.693790Z",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "id": "7g0zQZm378xm8Rl7tU0u"\n    },\n    {\n      "user_id": "5718455414",\n      "metadata": {},\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T04:40:14.793159Z",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "id": "lxHNAFUKfddlXRcjjDJM"\n    },\n    {\n      "user_id": "5718455414",\n      "metadata": {},\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T04:23:05.434636Z",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "id": "JAMw5rmXFPnzaBnkLQmq"\n    }\n  ],\n  "count": 7\n}', 'annotations': None}], 'isError': False}}, 'metadata': {}}}'
+2025-08-14 23:04:16,733 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 400 Bad Request"
+2025-08-14 23:04:16,734 - simpli5.webhook.telegram_webhook - ERROR - ❌ Failed to send response to chat 5718455414: Message is too long
+2025-08-14 23:04:16,734 - simpli5.webhook.telegram_webhook - ERROR - ❌ Response structure was: <class 'dict'> - {'name': 'JobAgent', 'reason': "This message 'list all my saved jobs' specifies job-related activities, which directly matches the JobAgent's specialization in handling job-related messages, applications, and job search activities.", 'response': {'status': 'success', 'message': "I've retrieved your saved job messages. Let me summarize what I found!\n\nI located 7 saved job messages for you. Each message was logged along with the timestamp it was saved and the job link.\n\nHere's a list of the saved jobs you sent me:\n\n* Save this job: https://explore.jobs.netflix.net/careers/job/790303921515 (timestamp: 2025-08-15T05:53:07.657077Z, id: eSmOI1JsbzWj5RY7ZCEk)\n* Save this job: https://explore.jobs.netflix.net/careers/job/790303921515 (timestamp: 2025-08-15T05:34:53.990160Z, id: rcybf4ErhLknf06hIeRR)\n* Save this job: https://explore.jobs.netflix.net/careers/job/790303921515 (timestamp: 2025-08-15T05:32:05.703567Z, id: XeujjMtjIPNLbeTZgHD6)\n* Save this job: https://explore.jobs.netflix.net/careers/job/790303921515 (timestamp: 2025-08-15T05:16:01.917056Z, id: IUtVtUUdo50nyPlPGQ2t)\n* Save this job: https://explore.jobs.netflix.net/careers/job/790303921515 (timestamp: 2025-08-15T04:40:16.693790Z, id: 7g0zQZm378xm8Rl7tU0u)\n* Save this job: https://explore.jobs.netflix.net/careers/job/790303921515 (timestamp: 2025-08-15T04:40:14.793159Z, id: lxHNAFUKfddlXRcjjDJM)\n* Save this job: https://explore.jobs.netflix.net/careers/job/790303921515 (timestamp: 2025-08-15T04:23:05.434636Z, id: JAMw5rmXFPnzaBnkLQmq)\n\nThese jobs are saved in your profile. You can easily access them whenever you need to refer back to them.", 'intent': 'list all saved jobs for this user', 'tool_results': {'tool_0_job_agent:get_job_messages': {'meta': None, 'content': [{'type': 'text', 'text': '{\n  "success": true,\n  "messages": [\n    {\n      "user_id": "5718455414",\n      "metadata": {},\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:53:07.657077Z",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "id": "eSmOI1JsbzWj5RY7ZCEk"\n    },\n    {\n      "user_id": "5718455414",\n      "metadata": {},\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:34:53.990160Z",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "id": "rcybf4ErhLknf06hIeRR"\n    },\n    {\n      "user_id": "5718455414",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:32:05.703567Z",\n      "metadata": {\n        "source": "netflix"\n      },\n      "id": "XeujjMtjIPNLbeTZgHD6"\n    },\n    {\n      "user_id": "5718455414",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:16:01.917056Z",\n      "metadata": {},\n      "id": "IUtVtUUdo50nyPlPGQ2t"\n    },\n    {\n      "user_id": "5718455414",\n      "metadata": {},\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T04:40:16.693790Z",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "id": "7g0zQZm378xm8Rl7tU0u"\n    },\n    {\n      "user_id": "5718455414",\n      "metadata": {},\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T04:40:14.793159Z",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "id": "lxHNAFUKfddlXRcjjDJM"\n    },\n    {\n      "user_id": "5718455414",\n      "metadata": {},\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T04:23:05.434636Z",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "id": "JAMw5rmXFPnzaBnkLQmq"\n    }\n  ],\n  "count": 7\n}', 'annotations': None}], 'isError': False}}, 'metadata': {}}}
+2025-08-14 23:05:26,117 - asyncio - ERROR - an error occurred during closing of asynchronous generator <async_generator object stdio_client at 0x10fd86200>
+asyncgen: <async_generator object stdio_client at 0x10fd86200>
+  + Exception Group Traceback (most recent call last):
+  |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 772, in __aexit__
+  |     raise BaseExceptionGroup(
+  | BaseExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 179, in stdio_client
+    |     yield read_stream, write_stream
+    | GeneratorExit
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 173, in stdio_client
+    anyio.create_task_group() as tg,
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 778, in __aexit__
+    if self.cancel_scope.__exit__(type(exc), exc, exc.__traceback__):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 457, in __exit__
+    raise RuntimeError(
+RuntimeError: Attempted to exit cancel scope in a different task than it was entered in
+2025-08-14 23:05:28,935 - simpli5.webhook.telegram_webhook - INFO - Firebase initialized successfully
+2025-08-14 23:05:29,163 - simpli5.webhook.telegram_webhook - INFO - LLM provider initialized successfully
+2025-08-14 23:05:29,163 - simpli5.webhook.telegram_webhook - INFO - Multi-Agent Controller initialized successfully with 2 agents
+2025-08-14 23:05:29,878 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/setWebhook "HTTP/1.1 200 OK"
+2025-08-14 23:05:29,879 - simpli5.webhook.telegram_webhook - INFO - Webhook set to: https://2fe004b02612.ngrok-free.app
+2025-08-14 23:05:35,997 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:05:35,997 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'list all my saved jobs'
+2025-08-14 23:05:36,459 - simpli5.providers.mcp.stdio_client - INFO - Added MCP server 'job_agent': python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 23:05:36,460 - simpli5.providers.mcp.stdio_client - INFO - Starting MCP server: python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 23:05:37,467 - simpli5.providers.mcp.stdio_client - INFO - MCP STDIO connection established successfully
+2025-08-14 23:05:37,467 - simpli5.providers.mcp.stdio_client - INFO - Connected to MCP server 'job_agent'
+2025-08-14 23:05:37,468 - simpli5.providers.mcp.stdio_client - INFO - Connected to 1 MCP servers via STDIO
+2025-08-14 23:05:38,130 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:05:38,606 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:05:38,609 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'get_job_messages' with arguments: {'user_id': '5718455414', 'limit': 50}
+2025-08-14 23:05:39,583 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:05:39,586 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: '{'name': 'JobAgent', 'reason': 'This message requests a list of saved jobs, which directly relates to job-related activities and applications. The JobAgent is specifically designed to handle messages regarding job search, career discussions, and related activities, making it the most appropriate agent to handle this message.', 'response': {'status': 'success', 'message': "You asked to list all your saved jobs, and I'm happy to report that I've successfully retrieved that information for you.\n\nI executed the necessary tools to gather the data, and I'm pleased to share the results with you. It appears that you have saved a total of 7 job postings.\n\nHere's a summary of the saved jobs:\n\n* Job Title: [Not mentioned]\n* Job Links: 7 unique job links from Netflix, all with the same job ID (790303921515)\n* Timestamps: The saved jobs were recorded between 2025-08-15T04:23:05.434636Z and 2025-08-15T05:53:07.657077Z\n\nPlease feel free to review these saved job postings and consider revisiting them if you're still interested. If you'd like to remove or update any of these saved jobs, just let me know!", 'intent': 'list all saved jobs', 'tool_results': {'tool_0_job_agent:get_job_messages': {'meta': None, 'content': [{'type': 'text', 'text': '{\n  "success": true,\n  "messages": [\n    {\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {},\n      "user_id": "5718455414",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:53:07.657077Z",\n      "id": "eSmOI1JsbzWj5RY7ZCEk"\n    },\n    {\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {},\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "user_id": "5718455414",\n      "timestamp": "2025-08-15T05:34:53.990160Z",\n      "id": "rcybf4ErhLknf06hIeRR"\n    },\n    {\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {\n        "source": "netflix"\n      },\n      "user_id": "5718455414",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:32:05.703567Z",\n      "id": "XeujjMtjIPNLbeTZgHD6"\n    },\n    {\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {},\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "user_id": "5718455414",\n      "timestamp": "2025-08-15T05:16:01.917056Z",\n      "id": "IUtVtUUdo50nyPlPGQ2t"\n    },\n    {\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {},\n      "user_id": "5718455414",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T04:40:16.693790Z",\n      "id": "7g0zQZm378xm8Rl7tU0u"\n    },\n    {\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {},\n      "user_id": "5718455414",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T04:40:14.793159Z",\n      "id": "lxHNAFUKfddlXRcjjDJM"\n    },\n    {\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {},\n      "user_id": "5718455414",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T04:23:05.434636Z",\n      "id": "JAMw5rmXFPnzaBnkLQmq"\n    }\n  ],\n  "count": 7\n}', 'annotations': None}], 'isError': False}}, 'metadata': {}}}'
+2025-08-14 23:05:40,259 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:05:40,260 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:06:53,989 - asyncio - ERROR - an error occurred during closing of asynchronous generator <async_generator object stdio_client at 0x10597e200>
+asyncgen: <async_generator object stdio_client at 0x10597e200>
+  + Exception Group Traceback (most recent call last):
+  |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 772, in __aexit__
+  |     raise BaseExceptionGroup(
+  | BaseExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 179, in stdio_client
+    |     yield read_stream, write_stream
+    | GeneratorExit
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 173, in stdio_client
+    anyio.create_task_group() as tg,
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 778, in __aexit__
+    if self.cancel_scope.__exit__(type(exc), exc, exc.__traceback__):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 457, in __exit__
+    raise RuntimeError(
+RuntimeError: Attempted to exit cancel scope in a different task than it was entered in
+2025-08-14 23:06:57,555 - simpli5.webhook.telegram_webhook - INFO - Firebase initialized successfully
+2025-08-14 23:06:57,766 - simpli5.webhook.telegram_webhook - INFO - LLM provider initialized successfully
+2025-08-14 23:06:57,766 - simpli5.webhook.telegram_webhook - INFO - Multi-Agent Controller initialized successfully with 2 agents
+2025-08-14 23:06:58,504 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/setWebhook "HTTP/1.1 200 OK"
+2025-08-14 23:06:58,504 - simpli5.webhook.telegram_webhook - INFO - Webhook set to: https://2fe004b02612.ngrok-free.app
+2025-08-14 23:07:04,422 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:07:04,423 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'list all my saved jobs'
+2025-08-14 23:07:04,922 - simpli5.providers.mcp.stdio_client - INFO - Added MCP server 'job_agent': python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 23:07:04,923 - simpli5.providers.mcp.stdio_client - INFO - Starting MCP server: python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 23:07:05,839 - simpli5.providers.mcp.stdio_client - INFO - MCP STDIO connection established successfully
+2025-08-14 23:07:05,839 - simpli5.providers.mcp.stdio_client - INFO - Connected to MCP server 'job_agent'
+2025-08-14 23:07:05,840 - simpli5.providers.mcp.stdio_client - INFO - Connected to 1 MCP servers via STDIO
+2025-08-14 23:07:06,645 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:07:07,219 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:07:07,221 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'get_job_messages' with arguments: {'user_id': '5718455414'}
+2025-08-14 23:07:08,241 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:07:08,245 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: '{'name': 'JobAgent', 'reason': "This message specifically asks 'list all my saved jobs', which implies that the user is referring to job applications or job search activities. Given the clear relevance to job-related information, the JobAgent is the most suitable agent to handle this message.", 'response': {'status': 'success', 'message': "You asked to list all your saved jobs. I'm happy to report that I was able to retrieve the information you requested!\n\nI executed a few tools to get the list of saved jobs for you, and I'm happy to share the results with you. It looks like you have 7 saved jobs so far.\n\nHere are the details of each job:\n\n1. Save this job: https://explore.jobs.netflix.net/careers/job/790303921515\n2. Save this job: https://explore.jobs.netflix.net/careers/job/790303921515\n3. Save this job: https://explore.jobs.netflix.net/careers/job/790303921515\n...\n7. Save this job: https://explore.jobs.netflix.net/careers/job/790303921515\n\nWould you like to review or apply to any of these jobs? I'm here to help you with the next steps!", 'intent': 'Retrieve previously saved jobs', 'tool_results': {'tool_0_job_agent:get_job_messages': {'meta': None, 'content': [{'type': 'text', 'text': '{\n  "success": true,\n  "messages": [\n    {\n      "metadata": {},\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:53:07.657077Z",\n      "user_id": "5718455414",\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "id": "eSmOI1JsbzWj5RY7ZCEk"\n    },\n    {\n      "metadata": {},\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:34:53.990160Z",\n      "user_id": "5718455414",\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "id": "rcybf4ErhLknf06hIeRR"\n    },\n    {\n      "metadata": {\n        "source": "netflix"\n      },\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:32:05.703567Z",\n      "user_id": "5718455414",\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "id": "XeujjMtjIPNLbeTZgHD6"\n    },\n    {\n      "metadata": {},\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:16:01.917056Z",\n      "user_id": "5718455414",\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "id": "IUtVtUUdo50nyPlPGQ2t"\n    },\n    {\n      "metadata": {},\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T04:40:16.693790Z",\n      "user_id": "5718455414",\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "id": "7g0zQZm378xm8Rl7tU0u"\n    },\n    {\n      "metadata": {},\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T04:40:14.793159Z",\n      "user_id": "5718455414",\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "id": "lxHNAFUKfddlXRcjjDJM"\n    },\n    {\n      "metadata": {},\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T04:23:05.434636Z",\n      "user_id": "5718455414",\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "id": "JAMw5rmXFPnzaBnkLQmq"\n    }\n  ],\n  "count": 7\n}', 'annotations': None}], 'isError': False}}, 'metadata': {}}}'
+2025-08-14 23:07:08,981 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:07:08,982 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:09:03,326 - asyncio - ERROR - an error occurred during closing of asynchronous generator <async_generator object stdio_client at 0x10e17a200>
+asyncgen: <async_generator object stdio_client at 0x10e17a200>
+  + Exception Group Traceback (most recent call last):
+  |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 772, in __aexit__
+  |     raise BaseExceptionGroup(
+  | BaseExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 179, in stdio_client
+    |     yield read_stream, write_stream
+    | GeneratorExit
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 173, in stdio_client
+    anyio.create_task_group() as tg,
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 778, in __aexit__
+    if self.cancel_scope.__exit__(type(exc), exc, exc.__traceback__):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 457, in __exit__
+    raise RuntimeError(
+RuntimeError: Attempted to exit cancel scope in a different task than it was entered in
+2025-08-14 23:09:20,749 - simpli5.webhook.telegram_webhook - INFO - Firebase initialized successfully
+2025-08-14 23:09:20,970 - simpli5.webhook.telegram_webhook - INFO - LLM provider initialized successfully
+2025-08-14 23:09:20,970 - simpli5.webhook.telegram_webhook - INFO - Multi-Agent Controller initialized successfully with 2 agents
+2025-08-14 23:09:21,644 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/setWebhook "HTTP/1.1 200 OK"
+2025-08-14 23:09:21,644 - simpli5.webhook.telegram_webhook - INFO - Webhook set to: https://2fe004b02612.ngrok-free.app
+2025-08-14 23:11:16,311 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:11:16,312 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'list all my saved jobs'
+2025-08-14 23:11:16,832 - simpli5.providers.mcp.stdio_client - INFO - Added MCP server 'job_agent': python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 23:11:16,834 - simpli5.providers.mcp.stdio_client - INFO - Starting MCP server: python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 23:11:18,048 - simpli5.providers.mcp.stdio_client - INFO - MCP STDIO connection established successfully
+2025-08-14 23:11:18,049 - simpli5.providers.mcp.stdio_client - INFO - Connected to MCP server 'job_agent'
+2025-08-14 23:11:18,049 - simpli5.providers.mcp.stdio_client - INFO - Connected to 1 MCP servers via STDIO
+2025-08-14 23:11:19,050 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:11:19,663 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:11:19,667 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'get_job_messages' with arguments: {'user_id': '5718455414', 'limit': 1000}
+2025-08-14 23:11:20,687 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:11:20,690 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: '{'name': 'JobAgent', 'reason': 'This message appears to be related to job search activities, as it is asking to list all saved jobs. The JobAgent specializes in handling job-related messages, applications, and career discussions, making it the most appropriate agent to handle this user message.', 'response': AgentResponse(status='success', message="Here's your list of saved jobs!\n\nI executed some tools to fetch all your saved job messages, and here are the results. You had a total of 7 jobs saved.\n\nHere's a summary of each job:\n\n1. Netflix Job #790303921515 - Saved on August 15, 2025, at 05:53:07 AM\n2. Netflix Job #790303921515 - Saved on August 15, 2025, at 05:34:53 AM\n3. Netflix Job #790303921515 - Saved on August 15, 2025, at 05:32:05 AM\n4. Netflix Job #790303921515 - Saved on August 15, 2025, at 05:16:01 AM\n5. Netflix Job #790303921515 - Saved on August 15, 2025, at 04:40:16 AM\n6. Netflix Job #790303921515 - Saved on August 15, 2025, at 04:40:14 AM\n7. Netflix Job #790303921515 - Saved on August 15, 2025, at 04:23:05 AM\n\nYou can bookmark these job links or revisit them later to view the job details. If you'd like to remove any of these jobs from your list, feel free to let me know!", intent='list all my saved jobs', tool_results={'tool_0_job_agent:get_job_messages': CallToolResult(meta=None, content=[TextContent(type='text', text='{\n  "success": true,\n  "messages": [\n    {\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:53:07.657077Z",\n      "metadata": {},\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "user_id": "5718455414",\n      "id": "eSmOI1JsbzWj5RY7ZCEk"\n    },\n    {\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "user_id": "5718455414",\n      "metadata": {},\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:34:53.990160Z",\n      "id": "rcybf4ErhLknf06hIeRR"\n    },\n    {\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T05:32:05.703567Z",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {\n        "source": "netflix"\n      },\n      "user_id": "5718455414",\n      "id": "XeujjMtjIPNLbeTZgHD6"\n    },\n    {\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "user_id": "5718455414",\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "metadata": {},\n      "timestamp": "2025-08-15T05:16:01.917056Z",\n      "id": "IUtVtUUdo50nyPlPGQ2t"\n    },\n    {\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T04:40:16.693790Z",\n      "metadata": {},\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "user_id": "5718455414",\n      "id": "7g0zQZm378xm8Rl7tU0u"\n    },\n    {\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T04:40:14.793159Z",\n      "metadata": {},\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "user_id": "5718455414",\n      "id": "lxHNAFUKfddlXRcjjDJM"\n    },\n    {\n      "extracted_job_link": "https://explore.jobs.netflix.net/careers/job/790303921515",\n      "user_id": "5718455414",\n      "metadata": {},\n      "original_message": "Save this job https://explore.jobs.netflix.net/careers/job/790303921515",\n      "timestamp": "2025-08-15T04:23:05.434636Z",\n      "id": "JAMw5rmXFPnzaBnkLQmq"\n    }\n  ],\n  "count": 7\n}', annotations=None)], isError=False)}, metadata={})}'
+2025-08-14 23:11:21,470 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:11:21,472 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:13:10,411 - asyncio - ERROR - an error occurred during closing of asynchronous generator <async_generator object stdio_client at 0x10a5fe0c0>
+asyncgen: <async_generator object stdio_client at 0x10a5fe0c0>
+  + Exception Group Traceback (most recent call last):
+  |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 772, in __aexit__
+  |     raise BaseExceptionGroup(
+  | BaseExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 179, in stdio_client
+    |     yield read_stream, write_stream
+    | GeneratorExit
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 173, in stdio_client
+    anyio.create_task_group() as tg,
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 778, in __aexit__
+    if self.cancel_scope.__exit__(type(exc), exc, exc.__traceback__):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 457, in __exit__
+    raise RuntimeError(
+RuntimeError: Attempted to exit cancel scope in a different task than it was entered in
+2025-08-14 23:13:13,274 - simpli5.webhook.telegram_webhook - INFO - Firebase initialized successfully
+2025-08-14 23:13:13,489 - simpli5.webhook.telegram_webhook - INFO - LLM provider initialized successfully
+2025-08-14 23:13:13,490 - simpli5.webhook.telegram_webhook - INFO - Multi-Agent Controller initialized successfully with 2 agents
+2025-08-14 23:13:14,254 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/setWebhook "HTTP/1.1 200 OK"
+2025-08-14 23:13:14,255 - simpli5.webhook.telegram_webhook - INFO - Webhook set to: https://2fe004b02612.ngrok-free.app
+2025-08-14 23:13:23,334 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:13:23,335 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'list all my saved jobs'
+2025-08-14 23:13:23,812 - simpli5.providers.mcp.stdio_client - INFO - Added MCP server 'job_agent': python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 23:13:23,812 - simpli5.providers.mcp.stdio_client - INFO - Starting MCP server: python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 23:13:25,017 - simpli5.providers.mcp.stdio_client - INFO - MCP STDIO connection established successfully
+2025-08-14 23:13:25,017 - simpli5.providers.mcp.stdio_client - INFO - Connected to MCP server 'job_agent'
+2025-08-14 23:13:25,018 - simpli5.providers.mcp.stdio_client - INFO - Connected to 1 MCP servers via STDIO
+2025-08-14 23:13:25,679 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:13:26,135 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:13:26,138 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'get_job_messages' with arguments: {'user_id': '5718455414', 'limit': 50}
+2025-08-14 23:13:27,465 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:13:27,470 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'You asked me to list all your saved job postings, and I'm happy to report that I was able to successfully fetch that information for you!
+
+I executed a tool to get your saved job messages, and I've summarized the results for you below.
+
+Here are the saved job postings I found for you:
+
+1. Netflix - [insert job title] (https://explore.jobs.netflix.net/careers/job/790303921515)
+2. Netflix - [insert job title] (https://explore.jobs.netflix.net/careers/job/790303921515)
+3. ...and 5 more similar job postings!
+
+It looks like you've saved 7 job postings from Netflix, all with the same job title. If you'd like to review or prioritize these jobs, feel free to browse this list and sort them as needed.
+
+As a next step, you might want to consider reviewing these job postings, saving any favorite ones to your favorites list, or applying to the ones that interest you. If you need help with any of these steps, just let me know!'
+2025-08-14 23:13:28,098 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:13:28,099 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:16:29,083 - asyncio - ERROR - an error occurred during closing of asynchronous generator <async_generator object stdio_client at 0x10babe0c0>
+asyncgen: <async_generator object stdio_client at 0x10babe0c0>
+  + Exception Group Traceback (most recent call last):
+  |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 772, in __aexit__
+  |     raise BaseExceptionGroup(
+  | BaseExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 179, in stdio_client
+    |     yield read_stream, write_stream
+    | GeneratorExit
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 173, in stdio_client
+    anyio.create_task_group() as tg,
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 778, in __aexit__
+    if self.cancel_scope.__exit__(type(exc), exc, exc.__traceback__):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 457, in __exit__
+    raise RuntimeError(
+RuntimeError: Attempted to exit cancel scope in a different task than it was entered in
+2025-08-14 23:16:32,255 - simpli5.webhook.telegram_webhook - INFO - Firebase initialized successfully
+2025-08-14 23:16:32,497 - simpli5.webhook.telegram_webhook - INFO - LLM provider initialized successfully
+2025-08-14 23:16:32,497 - simpli5.webhook.telegram_webhook - INFO - Multi-Agent Controller initialized successfully with 2 agents
+2025-08-14 23:16:33,219 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/setWebhook "HTTP/1.1 200 OK"
+2025-08-14 23:16:33,221 - simpli5.webhook.telegram_webhook - INFO - Webhook set to: https://2fe004b02612.ngrok-free.app
+2025-08-14 23:16:48,465 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:16:48,465 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'Save this job https://explore.jobs.netflix.net/careers/job/790303921515'
+2025-08-14 23:16:48,875 - simpli5.providers.mcp.stdio_client - INFO - Added MCP server 'job_agent': python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 23:16:48,875 - simpli5.providers.mcp.stdio_client - INFO - Starting MCP server: python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 23:16:50,034 - simpli5.providers.mcp.stdio_client - INFO - MCP STDIO connection established successfully
+2025-08-14 23:16:50,035 - simpli5.providers.mcp.stdio_client - INFO - Connected to MCP server 'job_agent'
+2025-08-14 23:16:50,035 - simpli5.providers.mcp.stdio_client - INFO - Connected to 1 MCP servers via STDIO
+2025-08-14 23:16:50,770 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:16:51,231 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:16:51,233 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'store_job_message' with arguments: {'user_id': '5718455414', 'original_message': 'Save this job https://explore.jobs.netflix.net/careers/job/790303921515', 'extracted_job_link': 'https://explore.jobs.netflix.net/careers/job/790303921515'}
+2025-08-14 23:16:52,003 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:16:52,006 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'You asked me to save the Netflix job posting for you, and I'm happy to confirm that I've done so successfully! I've stored the job posting under your saved jobs. From now on, you can easily access the posting whenever you need to, without having to search for it again.
+
+You can find the saved job posting under [insert link or instructions on how to access saved jobs]. If you need to review the job details or apply to the position, you can access it from here.
+
+If you're interested in applying to the position, be sure to review the job description and requirements carefully. Good luck with your job search!'
+2025-08-14 23:16:52,631 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:16:52,632 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:20:33,266 - asyncio - ERROR - an error occurred during closing of asynchronous generator <async_generator object stdio_client at 0x1082ae0c0>
+asyncgen: <async_generator object stdio_client at 0x1082ae0c0>
+  + Exception Group Traceback (most recent call last):
+  |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 772, in __aexit__
+  |     raise BaseExceptionGroup(
+  | BaseExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 179, in stdio_client
+    |     yield read_stream, write_stream
+    | GeneratorExit
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 173, in stdio_client
+    anyio.create_task_group() as tg,
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 778, in __aexit__
+    if self.cancel_scope.__exit__(type(exc), exc, exc.__traceback__):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 457, in __exit__
+    raise RuntimeError(
+RuntimeError: Attempted to exit cancel scope in a different task than it was entered in
+2025-08-14 23:20:36,355 - simpli5.webhook.telegram_webhook - INFO - Firebase initialized successfully
+2025-08-14 23:20:36,714 - simpli5.webhook.telegram_webhook - INFO - LLM provider initialized successfully
+2025-08-14 23:20:36,714 - simpli5.webhook.telegram_webhook - INFO - Multi-Agent Controller initialized successfully with 2 agents
+2025-08-14 23:20:37,376 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/setWebhook "HTTP/1.1 200 OK"
+2025-08-14 23:20:37,377 - simpli5.webhook.telegram_webhook - INFO - Webhook set to: https://2fe004b02612.ngrok-free.app
+2025-08-14 23:20:40,103 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:20:40,103 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'Save this job https://explore.jobs.netflix.net/careers/job/790303921515'
+2025-08-14 23:20:40,520 - simpli5.providers.mcp.stdio_client - INFO - Added MCP server 'job_agent': python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 23:20:40,521 - simpli5.providers.mcp.stdio_client - INFO - Starting MCP server: python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 23:20:41,728 - simpli5.providers.mcp.stdio_client - INFO - MCP STDIO connection established successfully
+2025-08-14 23:20:41,729 - simpli5.providers.mcp.stdio_client - INFO - Connected to MCP server 'job_agent'
+2025-08-14 23:20:41,730 - simpli5.providers.mcp.stdio_client - INFO - Connected to 1 MCP servers via STDIO
+2025-08-14 23:20:42,398 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:20:43,553 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:20:43,556 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'store_job_message' with arguments: {'user_id': '5718455414', 'original_message': 'Save this job https://explore.jobs.netflix.net/careers/job/790303921515', 'extracted_job_link': 'https://explore jobs.netflix.net/careers/job/790303921515', 'metadata': {}}
+2025-08-14 23:20:44,221 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:20:44,223 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'Here's the final response:
+
+Hi there!
+
+I've saved the Netflix job posting with ID 790303921515 for you!
+
+As you requested, I stored the job message, and you can now easily access it later. To view the saved job posting, simply come back to me anytime and ask to view saved jobs.
+
+If you'd like to explore other job opportunities at Netflix or build your profile on their careers page, feel free to do so. Remember, it's always a good idea to double-check the job requirements, requirements, and qualifications to confirm they're what you're looking for.
+
+If you have any more questions or requests, don't hesitate to ask!'
+2025-08-14 23:20:44,858 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:20:44,859 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:22:06,561 - asyncio - ERROR - an error occurred during closing of asynchronous generator <async_generator object stdio_client at 0x11338e0c0>
+asyncgen: <async_generator object stdio_client at 0x11338e0c0>
+  + Exception Group Traceback (most recent call last):
+  |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 772, in __aexit__
+  |     raise BaseExceptionGroup(
+  | BaseExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 179, in stdio_client
+    |     yield read_stream, write_stream
+    | GeneratorExit
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 173, in stdio_client
+    anyio.create_task_group() as tg,
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 778, in __aexit__
+    if self.cancel_scope.__exit__(type(exc), exc, exc.__traceback__):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 457, in __exit__
+    raise RuntimeError(
+RuntimeError: Attempted to exit cancel scope in a different task than it was entered in
+2025-08-14 23:22:09,367 - simpli5.webhook.telegram_webhook - INFO - Firebase initialized successfully
+2025-08-14 23:22:09,588 - simpli5.webhook.telegram_webhook - INFO - LLM provider initialized successfully
+2025-08-14 23:22:09,588 - simpli5.webhook.telegram_webhook - INFO - Multi-Agent Controller initialized successfully with 2 agents
+2025-08-14 23:22:10,203 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/setWebhook "HTTP/1.1 200 OK"
+2025-08-14 23:22:10,204 - simpli5.webhook.telegram_webhook - INFO - Webhook set to: https://2fe004b02612.ngrok-free.app
+2025-08-14 23:22:13,341 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:22:13,341 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'Save this job https://explore.jobs.netflix.net/careers/job/790303921515'
+2025-08-14 23:22:13,807 - simpli5.providers.mcp.stdio_client - INFO - Added MCP server 'job_agent': python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 23:22:13,807 - simpli5.providers.mcp.stdio_client - INFO - Starting MCP server: python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 23:22:14,925 - simpli5.providers.mcp.stdio_client - INFO - MCP STDIO connection established successfully
+2025-08-14 23:22:14,925 - simpli5.providers.mcp.stdio_client - INFO - Connected to MCP server 'job_agent'
+2025-08-14 23:22:14,925 - simpli5.providers.mcp.stdio_client - INFO - Connected to 1 MCP servers via STDIO
+2025-08-14 23:22:15,585 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:22:16,302 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:22:16,305 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'store_job_message' with arguments: {'user_id': '5718455414', 'original_message': 'Save this job https://explore.jobs.netflix.net/careers/job/790303921515', 'extracted_job_link': 'https://explore.jobs.netflix.net/careers/job/790303921515', 'company_name': 'Netflix', 'metadata': {'source': 'job posting'}}
+2025-08-14 23:22:16,999 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:22:17,000 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'Thank you for asking me to save the Netflix job posting for you! I've successfully stored the job, and you can view it again later in your job history.
+
+You can access your saved job by checking out your job history at any time. From there, you can view the job posting and its details, including the job title, description, and requirements.
+
+If you'd like to apply for the job or want to keep an eye on it, I suggest bookmarking the job posting or checking back frequently for updates. Good luck with your job search!'
+2025-08-14 23:22:17,608 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:22:17,609 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:23:25,792 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:23:25,792 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'list all my saved jobs'
+2025-08-14 23:23:26,315 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:23:26,911 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:23:26,913 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'get_job_messages' with arguments: {'user_id': '5718455414', 'limit': 50}
+2025-08-14 23:23:27,318 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:23:27,321 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'Here's my response:
+
+I understand you asked to list all your saved jobs. I checked your saved job messages, but unfortunately, it appears that you don't have any saved jobs at this time. The tool I used to check your messages didn't return any results, which means your message archive is currently empty.
+
+If you'd like to start saving jobs, I'd be happy to help you with that! Just search for jobs, select the ones you're interested in, and I'll guide you on how to save them for later reference.'
+2025-08-14 23:23:27,962 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:23:27,963 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:23:42,871 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:23:42,871 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'Save this job https://explore.jobs.netflix.net/careers/job/790303921515'
+2025-08-14 23:23:43,394 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:23:44,112 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:23:44,115 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'store_job_message' with arguments: {'user_id': '5718455414', 'original_message': 'Save this job https://explore.jobs.netflix.net/careers/job/790303921515', 'extracted_job_link': 'https://explore.jobs.netflix.net/careers/job/790303921515', 'company_name': 'Netflix', 'metadata': {}}
+2025-08-14 23:23:44,601 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:23:44,607 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'I've got you covered!
+
+You asked me to save the job posting from Netflix, and I'm happy to confirm that I've successfully stored the job for you!
+
+As a result of your request, I executed a tool that stored the job message, and now you can easily access it whenever you need to. You can find the saved job posting in your "Saved Jobs" section.
+
+Here's a quick recap of the job details:
+
+**Job Title:** [Not Provided]
+**Job Number:** 790303921515
+**Source:** Netflix
+**URL:** https://explore.jobs.netflix.net/careers/job/790303921515
+
+Now that you've saved the job, you can start planning your next steps. If you'd like to explore more job opportunities, I'd be happy to assist you with that. Alternatively, if you'd like to apply to this job or review more details, feel free to use the provided URL.
+
+What would you like to do next?'
+2025-08-14 23:23:45,383 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:23:45,384 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:23:59,552 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:23:59,552 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'list all my saved jobs'
+2025-08-14 23:23:59,947 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:24:00,422 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:24:00,424 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'get_job_messages' with arguments: {'user_id': '5718455414', 'limit': 0}
+2025-08-14 23:24:00,835 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:24:00,838 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'Here's your response:
+
+I understand you wanted to see a list of your saved job postings. I went ahead and fetched that information for you. Unfortunately, I didn't find any saved job postings in our database. My previous tools executed successfully, but since there were no matching results, my output was empty.
+
+No need to worry, though! If you have any job postings you'd like to save, you can easily do so from the job search page. Simply click the "Save" button on any job posting, and it will be added to your saved jobs list. You can also use the search function to find specific job postings you've saved in the past.
+
+Let me know if you need any help with job searching or saving!'
+2025-08-14 23:24:01,480 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:24:01,481 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:24:36,422 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:24:36,423 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'list all my savedjobs'
+2025-08-14 23:24:36,829 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:24:37,300 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:24:37,301 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'get_job_messages' with arguments: {'user_id': '5718455414'}
+2025-08-14 23:24:37,750 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:24:37,753 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'I found your saved job postings!
+
+I executed a tool to fetch your saved job postings, and I'm happy to report that we were able to retrieve the information you requested. Here's a summary of what we found:
+
+You saved a job posting at Netflix, titled "Save this job https://explore.jobs.netflix.net/careers/job/790303921515" on August 15, 2025, at 06:23:44 AM.
+
+Here's a detailed breakdown of the saved job posting:
+
+* Company: Netflix
+* Job link: https://explore.jobs.netflix.net/careers/job/790303921515
+
+If you'd like to explore more job opportunities or save additional job postings, feel free to ask me!'
+2025-08-14 23:24:38,433 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:24:38,434 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:25:11,691 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:25:11,692 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'save job https://jobs.micro1.ai/post/ff558e9e-7608-47a1-9542-a8fd05f57c98/'
+2025-08-14 23:25:12,264 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:25:13,015 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:25:13,017 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'store_job_message' with arguments: {'user_id': '5718455414', 'original_message': 'save job https://jobs.micro1.ai/post/ff558e9e-7608-47a1-9542-a8fd05f57c98/', 'extracted_job_link': 'https://jobs.micro1.ai/post/ff558e9e-7608-47a1-9542-a8fd05f57c98/', 'company_name': '', 'metadata': {}}
+2025-08-14 23:25:13,567 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:25:13,569 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'Here's a final response to the user:
+
+"Thanks for asking me to save the job posting from Micro1 AI! I've successfully stored the job message for you. You can access your saved jobs later.
+
+If you want to revisit the job posting, you can find it in your saved job list. I'll be happy to help you with any further actions or provide updates on the job status if you'd like.
+
+In the meantime, feel free to explore other job opportunities or ask me for assistance with any other requests you might have!"'
+2025-08-14 23:25:14,227 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:25:14,228 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:25:22,631 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:25:22,631 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'list all my saved jobs'
+2025-08-14 23:25:23,009 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:25:23,952 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:25:23,954 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'get_job_messages' with arguments: {'user_id': '5718455414'}
+2025-08-14 23:25:24,671 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:25:24,675 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'You asked to list all your saved jobs, and I'm happy to help you with that!
+
+I retrieved the information from our database and found that you have a total of 2 saved job postings. Here's the list of saved jobs:
+
+* **Company:** Netflix
+* **Job Link:** https://explore.jobs.netflix.net/careers/job/790303921515
+* **Original Message:** Save this job https://explore.jobs.netflix.net/careers/job/790303921515
+* **Timestamp:** 2025-08-15T06:23:44.118093Z
+
+* **Company:** (no company name provided)
+* **Job Link:** https://jobs.micro1.ai/post/ff558e9e-7608-47a1-9542-a8fd05f57c98/
+* **Original Message:** save job https://jobs.micro1.ai/post/ff558e9e-7608-47a1-9542-a8fd05f57c98/
+* **Timestamp:** 2025-08-15T06:25:13.045762Z
+
+You can use the job links to access the original postings or update your saved jobs. If you'd like to remove any of these saved jobs, feel free to reach out to me anytime!
+
+Is there anything else I can help you with?'
+2025-08-14 23:25:25,351 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:25:25,352 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:25:48,865 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:25:48,866 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'list all my saved jobs. only returned numbered list of job links'
+2025-08-14 23:25:49,454 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:25:50,125 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:25:50,129 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'get_job_messages' with arguments: {'user_id': '5718455414', 'limit': 100}
+2025-08-14 23:25:50,660 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:25:50,663 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'I've retrieved your saved job links and I'm happy to provide you with the list you requested!
+
+As you asked, I retrieved your saved job messages, and it looks like you have 2 saved jobs. I didn't need to execute any additional tools for this request, as the tool had already retrieved the necessary information.
+
+Here are your saved job links:
+
+1. [https://jobs.micro1.ai/post/ff558e9e-7608-47a1-9542-a8fd05f57c98/](https://jobs.micro1.ai/post/ff558e9e-7608-47a1-9542-a8fd05f57c98/)
+2. [https://explore.jobs.netflix.net/careers/job/790303921515](https://explore.jobs.netflix.net/careers/job/790303921515)
+
+Feel free to explore these links to learn more about the job openings and opportunities!'
+2025-08-14 23:25:51,301 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:25:51,302 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:29:21,820 - asyncio - ERROR - an error occurred during closing of asynchronous generator <async_generator object stdio_client at 0x1086ea0c0>
+asyncgen: <async_generator object stdio_client at 0x1086ea0c0>
+  + Exception Group Traceback (most recent call last):
+  |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 772, in __aexit__
+  |     raise BaseExceptionGroup(
+  | BaseExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 179, in stdio_client
+    |     yield read_stream, write_stream
+    | GeneratorExit
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 173, in stdio_client
+    anyio.create_task_group() as tg,
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 778, in __aexit__
+    if self.cancel_scope.__exit__(type(exc), exc, exc.__traceback__):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 457, in __exit__
+    raise RuntimeError(
+RuntimeError: Attempted to exit cancel scope in a different task than it was entered in
+2025-08-14 23:29:38,454 - simpli5.webhook.telegram_webhook - INFO - Firebase initialized successfully
+2025-08-14 23:29:38,678 - simpli5.webhook.telegram_webhook - INFO - LLM provider initialized successfully
+2025-08-14 23:29:38,679 - simpli5.webhook.telegram_webhook - INFO - Multi-Agent Controller initialized successfully with 2 agents
+2025-08-14 23:29:39,405 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/setWebhook "HTTP/1.1 200 OK"
+2025-08-14 23:29:39,406 - simpli5.webhook.telegram_webhook - INFO - Webhook set to: https://2fe004b02612.ngrok-free.app
+2025-08-14 23:29:53,393 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:29:53,393 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'save job https://jobs.micro1.ai/post/ff558e9e-7608-47a1-9542-a8fd05f57c98/'
+2025-08-14 23:29:53,895 - simpli5.providers.mcp.stdio_client - INFO - Added MCP server 'job_agent': python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 23:29:53,895 - simpli5.providers.mcp.stdio_client - INFO - Starting MCP server: python3 src/simpli5/servers/job_agent_server.py
+2025-08-14 23:29:55,142 - simpli5.providers.mcp.stdio_client - INFO - MCP STDIO connection established successfully
+2025-08-14 23:29:55,142 - simpli5.providers.mcp.stdio_client - INFO - Connected to MCP server 'job_agent'
+2025-08-14 23:29:55,142 - simpli5.providers.mcp.stdio_client - INFO - Connected to 1 MCP servers via STDIO
+2025-08-14 23:29:55,929 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:29:56,950 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:29:56,953 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'store_job_message' with arguments: {'user_id': '5718455414', 'original_message': 'save job https://jobs.micro1.ai/post/ff558e9e-7608-47a1-9542-a8fd05f57c98/', 'extracted_job_link': 'https://jobs.micro1.ai/post/ff558e9e-7608-47a1-9542-a8fd05f57c98/', 'company_name': 'Micro1 AI', 'metadata': None}
+2025-08-14 23:30:00,453 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:30:00,458 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'I've received your request to save the job posting at https://jobs.micro1.ai/post/ff558e9e-7608-47a1-9542-a8fd05f57c98/. 
+
+I'm happy to let you know that this job has already been saved in your account. You can view the saved job posting by simply asking me to recall it anytime you'd like.'
+2025-08-14 23:30:01,148 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:30:01,150 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:31:54,636 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:31:54,638 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'save job https://jobs.micro1.ai/post/ff558e9e-7608-47a1-9542-a8fd05f57c98/'
+2025-08-14 23:31:55,116 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:31:55,834 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:31:55,837 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'Could not understand LLM response. Please try rephrasing your request.'
+2025-08-14 23:31:56,558 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:31:56,560 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:31:59,436 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:31:59,436 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'save job https://jobs.micro1.ai/post/ff558e9e-7608-47a1-9542-a8fd05f57c98/'
+2025-08-14 23:31:59,789 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:32:00,260 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:32:00,263 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'store_job_message' with arguments: {'user_id': '5718455414', 'original_message': 'save job https://jobs.micro1.ai/post/ff558e9e-7608-47a1-9542-a8fd05f57c98/', 'extracted_job_link': 'https://jobs.micro1.ai/post/ff558e9e-7608-47a1-9542-a8fd05f57c98/', 'company_name': 'Micro1', 'metadata': {'source': 'user message'}}
+2025-08-14 23:32:00,913 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:32:00,916 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'Here's a helpful response:
+
+"Thanks for asking me to save that job posting from Micro1. I've successfully stored the job for you, and you can access it later in your job search history. You can rest assured that the job, '..., is now saved and ready for you to revisit whenever you'd like.
+
+Take a look at your saved jobs to review the details and requirements of this position. Have you started applying to other roles? Consider sending your application to this job too, and I'll be happy to provide job search tips or suggestions if you need them!"'
+2025-08-14 23:32:01,236 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:32:01,237 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:32:35,415 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:32:35,415 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'list all my saved jobs. The response should just be numbered list of job links and nothing else'
+2025-08-14 23:32:35,909 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:32:36,414 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:32:36,416 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'get_job_messages' with arguments: {'user_id': '5718455414'}
+2025-08-14 23:32:37,303 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:32:37,307 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'Here is your list of saved jobs:
+
+1. https://jobs.micro1.ai/post/ff558e9e-7608-47a1-9542-a8fd05f57c98/
+2. https://explore.jobs.netflix.net/careers/job/790303921515
+
+I hope this helps!'
+2025-08-14 23:32:37,925 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:32:37,926 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:33:42,366 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:33:42,370 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'create a summary of all my saved jobs'
+2025-08-14 23:33:42,927 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:33:43,432 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:33:43,434 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'get_job_messages' with arguments: {'user_id': '5718455414', 'limit': -1}
+2025-08-14 23:33:43,811 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:33:43,813 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'Thank you for asking me to create a summary of your saved jobs! Unfortunately, it seems that there were some issues with fetching the job messages. It looks like the request was rejected due to a negative limit error.
+
+As a result, I wasn't able to fetch the job messages and provide a summary for you. However, I'd be happy to help you troubleshoot or try again if you'd like! If you're still having issues, we could also explore alternative options to access your saved jobs.
+
+Let me know how I can assist you further.'
+2025-08-14 23:33:44,490 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:33:44,491 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:35:21,523 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:35:21,526 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'create a summary of my saved jobs for last 20 jobs'
+2025-08-14 23:35:22,126 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:35:23,254 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:35:23,600 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:35:23,601 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'I apologize for the inconvenience. You originally asked me to create a summary of your saved jobs for the last 20 jobs. I tried to execute a tool to retrieve the necessary information, but unfortunately, it failed to provide the expected results.
+
+To clarify, I did attempt to retrieve your saved job history, but the tool I used was not found. I'm sorry I wasn't able to obtain the information you requested.
+
+If you'd like, we can try to investigate further to see what might be causing the issue. Alternatively, if you have a printout or saved version of your job applications, we can work together to summarize the last 20 jobs you've applied to. Please let me know how I can assist you further.'
+2025-08-14 23:35:24,250 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:35:24,251 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:36:06,406 - simpli5.webhook.telegram_webhook - INFO - 🧠 _handle_memory_command called
+2025-08-14 23:36:06,406 - simpli5.webhook.telegram_webhook - INFO - 🔍 Checking message: 'create a summary of my saved jobs for last 20 jobs'
+2025-08-14 23:36:07,099 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:36:07,633 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:36:07,636 - simpli5.providers.mcp.stdio_client - INFO - Calling tool 'get_job_messages' with arguments: {'user_id': '5718455414', 'limit': 20}
+2025-08-14 23:36:08,246 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-14 23:36:08,249 - simpli5.webhook.telegram_webhook - INFO - 📤 Sending response to chat 5718455414: 'You requested a summary of your last 20 saved jobs, and I'm happy to provide that for you!
+
+Before I dive into the summary, I just wanted to let you know that I executed some tools to fetch the data. Don't worry about the technical details, I've got everything in hand!
+
+Now, let's take a look at your last 20 saved jobs:
+
+You have a total of 2 saved jobs. Here's a brief overview of each:
+
+* Job 1: Micro1 - This is a job you saved on Aug 15, 2025, at 6:32 AM. The job link is https://jobs.micro1.ai/post/ff558e9e-7608-47a1-9542-a8fd05f57c98/
+* Job 2: Netflix - This is another job you saved on Aug 15, 2025, at 6:23 AM. The job link is https://explore.jobs.netflix.net/careers/job/790303921515
+
+I hope this summary helps! If you'd like to revisit or edit any of these saved jobs, just let me know and I'd be happy to assist you.'
+2025-08-14 23:36:08,897 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8318167780:AAELHra9bh1y9m6N79UEfnVgaigz2KJaLdU/sendMessage "HTTP/1.1 200 OK"
+2025-08-14 23:36:08,898 - simpli5.webhook.telegram_webhook - INFO - ✅ Response sent successfully to chat 5718455414
+2025-08-14 23:36:37,100 - asyncio - ERROR - an error occurred during closing of asynchronous generator <async_generator object stdio_client at 0x11711a0c0>
+asyncgen: <async_generator object stdio_client at 0x11711a0c0>
+  + Exception Group Traceback (most recent call last):
+  |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 772, in __aexit__
+  |     raise BaseExceptionGroup(
+  | BaseExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 179, in stdio_client
+    |     yield read_stream, write_stream
+    | GeneratorExit
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/mcp/client/stdio/__init__.py", line 173, in stdio_client
+    anyio.create_task_group() as tg,
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 778, in __aexit__
+    if self.cancel_scope.__exit__(type(exc), exc, exc.__traceback__):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/atrivedi/Projects/Simpli5.AI/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 457, in __exit__
+    raise RuntimeError(
+RuntimeError: Attempted to exit cancel scope in a different task than it was entered in

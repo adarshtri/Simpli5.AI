@@ -47,14 +47,3 @@ class MCPClientProvider:
                 await session.initialize()
                 result = await session.get_prompt(prompt_name, arguments=arguments)
                 return result
-
-# Example usage (for testing only)
-if __name__ == "__main__":
-    import sys
-    async def main():
-        server_url = sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:8000"
-        provider = MCPClientProvider(server_url)
-        tools = await provider.list_tools()
-        for tool in tools:
-            print(f"Tool: {tool.name} - {tool.description}")
-    asyncio.run(main()) 

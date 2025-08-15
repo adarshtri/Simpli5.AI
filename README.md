@@ -132,7 +132,7 @@ Simpli5.AI includes a webhook server that can receive Telegram messages and stor
    simpli5 webhook --telegram-token YOUR_TOKEN --webhook-url https://your-domain.com/webhook
    
    # Or using the example script
-   python examples/telegram_webhook_example.py
+   python scripts/telegram_webhook_example.py
    ```
 
 #### Features

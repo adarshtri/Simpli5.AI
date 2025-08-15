@@ -1,6 +1,7 @@
 """Telegram webhook for receiving and storing messages in Firestore."""
 
 import os
+import sys
 import logging
 from typing import Dict, Any, Optional
 from datetime import datetime
@@ -14,7 +15,20 @@ from telegram.ext import Application
 
 # Import for LLM and MCP integration
 from ..providers.llm.multi import MultiLLMProvider
-from ..servers.telegram import MemoryCategorizationPrompt
+from ..agents.multi_agent_controller import MultiAgentController
+from ..agents.job_agent import JobAgent
+from ..agents.weight_management_agent import WeightManagementAgent
+from ..agents.models import ResponseFormatter
+
+# Configure logging to output to terminal
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.StreamHandler(sys.stdout),  # Output to terminal
+        logging.FileHandler('telegram_webhook.log')  # Also log to file
+    ]
+)
 
 logger = logging.getLogger(__name__)
 
@@ -59,6 +73,9 @@ class TelegramWebhook:
         # Initialize LLM provider
         self._init_llm()
         
+        # Initialize Multi-Agent Controller
+        self._init_multi_agent_controller()
+        
         # Initialize FastAPI app
         self.app = FastAPI(title="Simpli5 Telegram Webhook")
         self._setup_routes()
@@ -96,6 +113,26 @@ class TelegramWebhook:
         except Exception as e:
             logger.warning(f"LLM initialization failed: {e}")
             logger.info("Memory categorization will be disabled")
+    
+    def _init_multi_agent_controller(self):
+        """Initialize the Multi-Agent Controller."""
+        self.multi_agent_controller = None
+        try:
+            # Create available agents
+            job_agent = JobAgent()
+            weight_management_agent = WeightManagementAgent()
+            
+            # Initialize the multi-agent controller with available agents
+            self.multi_agent_controller = MultiAgentController([job_agent, weight_management_agent])
+            
+            # Initialize the controller (this will initialize MCP and LLM providers)
+            # Note: We'll initialize this asynchronously when needed
+            
+            logger.info("Multi-Agent Controller initialized successfully with 2 agents")
+                
+        except Exception as e:
+            logger.warning(f"Multi-Agent Controller initialization failed: {e}")
+            logger.info("Multi-agent routing will be disabled")
     
     def _setup_routes(self):
         """Setup FastAPI routes."""
@@ -158,13 +195,30 @@ class TelegramWebhook:
         # Store in Firestore (private chat only)
         await self._store_message(message_data, "private")
         
-        # Generate personalized response if it's not a memory command
+        # Use multi-agent controller if it's not a memory command
         if not is_memory_command:
-            personalized_response = await self._generate_personalized_response(message_data)
-            await self._send_response(chat.id, personalized_response)
+            if self.multi_agent_controller:
+                try:
+                    # Initialize the controller if not already done
+                    if not self.multi_agent_controller.mcp_provider:
+                        await self.multi_agent_controller.initialize()
+                    
+                    # Route message through multi-agent controller
+                    context = {"user_id": str(message_data.user_id)}
+                    response = await self.multi_agent_controller.handle(message_data.text, context)
+                    await self._send_response(chat.id, response)
+                except Exception as e:
+                    logger.error(f"Multi-agent controller error: {e}")
+                    # Fallback to personalized response
+                    personalized_response = await self._generate_personalized_response(message_data)
+                    await self._send_response(chat.id, personalized_response)
+            else:
+                # Fallback to personalized response if multi-agent controller not available
+                personalized_response = await self._generate_personalized_response(message_data)
+                await self._send_response(chat.id, personalized_response)
     
     async def _handle_memory_command(self, message: TelegramMessage) -> bool:
-        """Handle memory commands and categorize messages. Returns True if it was a memory command."""
+        """Handle memory commands and return default response. Returns True if it was a memory command."""
         logger.info("🧠 _handle_memory_command called")
         logger.info(f"🔍 Checking message: '{message.text}'")
         
@@ -173,7 +227,7 @@ class TelegramWebhook:
         
         # Handle /listmemory command
         if message.text.startswith('/listmemory'):
-            await self._handle_list_memory_command(message)
+            await self._send_response(message.chat_id, "Acknowledge receiving memory message.")
             return True
         
         # Handle /memory command
@@ -185,55 +239,11 @@ class TelegramWebhook:
         if not memory_content:
             return False
         
-        # Categorize the memory using LLM
-        category = await self._categorize_memory(memory_content)
-        
-        # Only store memories that are not "not_applicable"
-        if category == "not_applicable":
-            # Send response to user
-            response_text = f"🧠 Memory: \"{memory_content}\"\n❌ Not stored (not applicable for memory)"
-            await self._send_response(message.chat_id, response_text)
-            return True
-        
-        # Store the categorized memory in Firestore
-        if self.db:
-            try:
-                memory_data = {
-                    "message": memory_content,
-                    "user_id": message.user_id,
-                    "timestamp": message.timestamp,
-                    "command_type": "memory",
-                    "category": category,
-                    "status": "categorized"
-                }
-                
-                # Store in users/{user_id}/memories/{category}
-                user_collection = self.db.collection('users').document(str(message.user_id))
-                memories_collection = user_collection.collection('memories')
-                category_doc = memories_collection.document(category)
-                
-                # Get existing memories for this category or create new
-                category_doc_ref = category_doc.get()
-                if category_doc_ref.exists:
-                    existing_data = category_doc_ref.to_dict()
-                    memories = existing_data.get('memories', [])
-                    memories.append(memory_data)
-                    category_doc.update({'memories': memories})
-                else:
-                    category_doc.set({'memories': [memory_data]})
-                
-                # Send success response to user
-                response_text = f"🧠 Memory: \"{memory_content}\"\n✅ Stored as: {category.upper()}\nI'll remember this information about you for our future conversations."
-                await self._send_response(message.chat_id, response_text)
-                
-            except Exception as e:
-                # Send error response to user
-                response_text = f"🧠 Memory: \"{memory_content}\"\n❌ Error storing memory: {e}"
-                await self._send_response(message.chat_id, response_text)
-        
+        # Send default response
+        await self._send_response(message.chat_id, "Acknowledge receiving memory message.")
         return True
     
-    async def _handle_list_memory_command(self, message: TelegramMessage):
+
         """Handle the /list-memory command to show all user memories."""
         if not self.db:
             response_text = "❌ Memory storage not available"
@@ -308,14 +318,18 @@ class TelegramWebhook:
         except Exception as e:
             return ""
     
-    async def _send_response(self, chat_id: int, message_text: str):
+    async def _send_response(self, chat_id: int, message_text):
         """Send a response back to the user via Telegram bot."""
         try:
-            logger.info(f"📤 Sending response to chat {chat_id}: '{message_text}'")
-            await self.bot.bot.send_message(chat_id=chat_id, text=message_text)
+            # Use the structured formatter to extract the message
+            text_to_send = ResponseFormatter.format_for_telegram(message_text)
+            
+            logger.info(f"📤 Sending response to chat {chat_id}: '{text_to_send}'")
+            await self.bot.bot.send_message(chat_id=chat_id, text=text_to_send)
             logger.info(f"✅ Response sent successfully to chat {chat_id}")
         except Exception as e:
             logger.error(f"❌ Failed to send response to chat {chat_id}: {e}")
+            logger.error(f"❌ Response structure was: {type(message_text)} - {message_text}")
     
     async def _generate_personalized_response(self, message: TelegramMessage) -> str:
         """Generate a personalized response using LLM and user memories."""
@@ -356,30 +370,64 @@ Please respond in a helpful, conversational way. Keep your response concise and 
         except Exception as e:
             return f"I'm sorry, I'm having trouble processing your request right now. Here's what you said: {message.text}"
     
-    async def _categorize_memory(self, memory_content: str) -> str:
-        """Categorize memory using LLM."""
-        if not self.llm_manager or not self.llm_manager.has_provider():
-            return "not_applicable"
+    async def _categorize_memory_with_agent(self, memory_content: str) -> Dict[str, Any]:
+        """Categorize memory using the Memory Categorizer Agent."""
+        if not self.memory_agent:
+            return {
+                "category": "not_applicable",
+                "reasoning_summary": "Agent not available",
+                "steps": [],
+                "confidence": "low"
+            }
         
         try:
-            # Create the memory categorization prompt
-            prompt = MemoryCategorizationPrompt()
-            prompt_result = await prompt.generate({"user_message": memory_content})
-            prompt_text = prompt_result.content
+            # Create agent input
+            context = AgentContext(recent_messages=[])
+            agent_input = AgentInput(
+                message=memory_content,
+                context=context,
+                timestamp=datetime.now()
+            )
             
-            # Send to LLM for categorization
-            llm_response = self.llm_manager.generate_response(prompt_text)
-            category = llm_response.strip().lower()
+            # Process with agent
+            response = await self.memory_agent.process(agent_input)
             
-            # Validate category
-            valid_categories = ["profile", "preference", "context", "not_applicable"]
-            if category not in valid_categories:
-                return "not_applicable"
+            # Extract category from response
+            category = response.final_response.replace("Categorized as: ", "")
             
-            return category
+            # Create reasoning summary from steps
+            reasoning_steps = []
+            for i, step in enumerate(response.steps[:5], 1):  # Show first 5 steps
+                reasoning_steps.append(f"{i}. [{step.type.value.upper()}] {step.content}")
+            
+            if len(response.steps) > 5:
+                reasoning_steps.append(f"... and {len(response.steps) - 5} more steps")
+            
+            reasoning_summary = "\n".join(reasoning_steps)
+            
+            return {
+                "category": category,
+                "reasoning_summary": reasoning_summary,
+                "steps": response.steps,
+                "confidence": self._extract_confidence_from_steps(response.steps),
+                "success": response.success
+            }
             
         except Exception as e:
-            return "not_applicable"
+            logger.error(f"Agent categorization failed: {e}")
+            return {
+                "category": "not_applicable",
+                "reasoning_summary": f"Agent error: {str(e)}",
+                "steps": [],
+                "confidence": "low"
+            }
+    
+    def _extract_confidence_from_steps(self, steps) -> str:
+        """Extract confidence level from agent steps."""
+        for step in steps:
+            if hasattr(step, 'data') and step.data and 'confidence' in step.data:
+                return step.data['confidence']
+        return "medium"  # Default confidence
     
     async def _store_message(self, message: TelegramMessage, chat_type: str = "private"):
         """Store message in Firestore or print to console."""

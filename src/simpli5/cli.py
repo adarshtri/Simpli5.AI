@@ -5,7 +5,6 @@ import sys
 import os
 from contextlib import redirect_stderr
 from dotenv import load_dotenv
-from simpli5.providers.mcp.client import MCPClientProvider
 from simpli5.providers.mcp.multi import MultiServerProvider
 from mcp.types import TextContent
 from simpli5.config import ConfigManager

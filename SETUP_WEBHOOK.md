@@ -62,7 +62,7 @@ simpli5 webhook \
   --collection-name telegram_messages
 
 # Or using the example script
-python examples/telegram_webhook_example.py
+python scripts/telegram_webhook_example.py
 ```
 
 ## Step 6: Test the Webhook
@@ -104,7 +104,7 @@ Once you have messages stored in Firestore, you can:
 You can test the webhook functionality without real credentials:
 
 ```bash
-python examples/test_webhook.py
+# test_webhook.py was removed - use scripts/telegram_webhook_example.py instead
 ```
 
 This will test the message model and webhook structure without requiring actual Telegram or Firebase setup.

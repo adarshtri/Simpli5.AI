@@ -6,25 +6,22 @@ from typing import List, Optional
 from .providers.mcp.multi import MultiServerProvider
 from .providers.llm.multi import MultiLLMProvider
 from .config import ConfigManager
-from .servers.cli import CLIMCPServer
+
 
 class ChatInterface:
     """Interactive chat interface for MCP servers."""
     
-    def __init__(self, server_ids: Optional[List[str]] = None, cli_server_port: int = 8001, log_level: str = "WARNING"):
+    def __init__(self, server_ids: Optional[List[str]] = None, log_level: str = "WARNING"):
         self.config = ConfigManager()
         if server_ids is None:
             # Use all configured servers
             server_ids = [server_id for server_id, _ in self.config.list_servers()]
         
         self.server_ids = server_ids
-        self.cli_server_port = cli_server_port
         self.log_level = log_level
         self.multi_provider: Optional[MultiServerProvider] = None
-        self.cli_server: Optional[CLIMCPServer] = None
         self.running = False
         self.llm_manager: Optional[MultiLLMProvider] = None
-        self.is_routing = False # Add a flag to prevent re-entrant calls
         
         # Set up signal handlers for graceful shutdown
         signal.signal(signal.SIGINT, self._signal_handler)
@@ -35,6 +32,8 @@ class ChatInterface:
         if self.running:
             print(f"\nReceived signal {signum}, shutting down gracefully...")
             self.running = False
+            # Note: We can't call async methods from signal handlers
+            # The main loop will handle the cleanup
     
     async def start(self):
         """Start the chat interface."""
@@ -43,16 +42,8 @@ class ChatInterface:
             print("Initializing LLM providers...")
             self.llm_manager = MultiLLMProvider()
 
-            # Start CLI MCP server
-            print("Starting CLI MCP server...")
-            self.cli_server = CLIMCPServer(host="localhost", port=self.cli_server_port, log_level=self.log_level)
-            await self.cli_server.start()
-            print(f"CLI MCP server started on localhost:{self.cli_server_port}")
-            
-            # Add CLI server to the list of servers to connect to, ensuring no duplicates
+            # Connect to configured servers
             server_ids_to_connect = self.server_ids.copy()
-            if "cli" not in server_ids_to_connect:
-                server_ids_to_connect.append("cli")
             
             if not server_ids_to_connect:
                 print("No servers configured. Please check your config/mcp_servers.yml file.")
@@ -82,9 +73,12 @@ class ChatInterface:
         print("\nShutting down chat interface...")
         self.running = False
         
-        # Stop CLI MCP server
-        if self.cli_server and self.cli_server.is_running:
-            await self.cli_server.stop()
+        # Cleanup MCP connections
+        if self.multi_provider:
+            try:
+                await self.multi_provider.disconnect_all()
+            except Exception as e:
+                print(f"Warning: Error disconnecting from MCP servers: {e}")
         
         print("Chat interface stopped.")
     
@@ -98,12 +92,8 @@ class ChatInterface:
 
             if user_input.startswith('/'):
                 await self._handle_command(user_input)
-            elif self.llm_manager and self.llm_manager.has_provider() and not self.is_routing:
+            elif self.llm_manager and self.llm_manager.has_provider():
                 await self._process_natural_language_input(user_input)
-            elif self.is_routing:
-                # This case is for the second pass, for a pure chat response
-                response = self.llm_manager.generate_response(user_input)
-                print(f"\n🤖 AI:\n{response}")
             else:
                 print("\nLLM provider is not configured. Please check your 'config/llm_providers.yml' and ensure API keys are set.")
                 print("You can still use commands like /help, /tools, etc.")
@@ -117,6 +107,9 @@ class ChatInterface:
                 print(f"Error during shutdown: {e}")
             else:
                 print("Chat interface stopped.")
+        finally:
+            # Ensure we always mark as not running
+            self.running = False
     
     async def _prompt_for_input(self) -> str:
         """Prompt for and read user input asynchronously."""
@@ -267,7 +260,7 @@ class ChatInterface:
                     print(f"  - {available_tool}")
                 print("\n💡 Tip: Make sure the server with this tool is running.")
                 if "local:" in tool_name:
-                    print("   For local tools, start the simple server with: python examples/simple_server.py")
+                    print("   For local tools, start the calculator server with: python scripts/stdio_mcp_example.py")
                 return
             
             result = await self.multi_provider.call_tool(tool_name, arguments)
@@ -343,7 +336,7 @@ class ChatInterface:
             
             # Use the new memory categorization prompt
             result = await self.multi_provider.generate_prompt(
-                "telegram:memory_categorization",
+        
                 {"user_message": message}
             )
             
@@ -404,12 +397,145 @@ class ChatInterface:
 
     async def _process_natural_language_input(self, user_input: str):
         """
-        Uses the LLM to handle natural language input directly.
+        First tries to route the request through available MCP tools,
+        then falls back to direct LLM response if no tools can handle it.
         """
         print("\n🤔 Thinking...")
-        await self._handle_direct_llm_response(user_input)
+        
+        # First, try to route through available tools
+        if self.multi_provider and self.llm_manager and self.llm_manager.has_provider():
+            await self._route_through_tools(user_input)
+        else:
+            # Fallback to direct LLM response
+            await self._handle_direct_llm_response(user_input)
 
 
+
+    async def _route_through_tools(self, user_input: str):
+        """
+        Route user input through available MCP tools using LLM to determine
+        which tools to call and with what arguments.
+        """
+        try:
+            # Create a routing prompt that includes available tools
+            available_tools = self.multi_provider.list_all_tools()
+            
+            if not available_tools:
+                print("No tools available, falling back to direct LLM response.")
+                await self._handle_direct_llm_response(user_input)
+                return
+            
+            # Build detailed tool information including schemas
+            tool_details = []
+            for tool_name, server_id, tool_info in available_tools:
+                tool_detail = f"- {tool_name}: {tool_info.description}"
+                
+                # Add input schema if available
+                if hasattr(tool_info, 'inputSchema') and tool_info.inputSchema:
+                    schema = tool_info.inputSchema
+                    
+                    # Handle both dict and object schemas
+                    if isinstance(schema, dict) and 'properties' in schema:
+                        # Schema is a dictionary
+                        required = schema.get('required', [])
+                        properties = schema['properties']
+                        
+                        tool_detail += f"\n  Input schema:"
+                        for prop_name, prop_info in properties.items():
+                            prop_type = prop_info.get('type', 'unknown')
+                            prop_desc = prop_info.get('description', '')
+                            required_mark = " (required)" if prop_name in required else " (optional)"
+                            tool_detail += f"\n    - {prop_name}: {prop_type}{required_mark}"
+                            if prop_desc:
+                                tool_detail += f" - {prop_desc}"
+                    elif hasattr(schema, 'properties'):
+                        # Schema is an object with attributes
+                        required = getattr(schema, 'required', [])
+                        properties = schema.properties
+                        
+                        tool_detail += f"\n  Input schema:"
+                        for prop_name, prop_info in properties.items():
+                            prop_type = getattr(prop_info, 'type', 'unknown')
+                            prop_desc = getattr(prop_info, 'description', '')
+                            required_mark = " (required)" if prop_name in required else " (optional)"
+                            tool_detail += f"\n    - {prop_name}: {prop_type}{required_mark}"
+                            if prop_desc:
+                                tool_detail += f" - {prop_desc}"
+                
+                tool_details.append(tool_detail)
+            
+            routing_prompt = f"""You have access to the following tools with their input schemas:
+
+{chr(10).join(tool_details)}
+
+User request: "{user_input}"
+
+Based on the user's request and the tool schemas above, determine which tool(s) to call and with what arguments.
+IMPORTANT: Only use the exact argument names and types specified in the tool schemas.
+
+If the request can be handled by available tools, respond with a JSON object like:
+{{
+    "tool_calls": [
+        {{
+            "tool_name": "exact_tool_name_from_list",
+            "arguments": {{"exact_arg_name": "value"}}
+        }}
+    ]
+}}
+
+If no tools can handle the request, respond with:
+{{
+    "tool_calls": [],
+    "fallback": "explanation of why no tools can handle this"
+}}
+
+Respond with only the JSON, no other text."""
+
+            # Get LLM routing decision
+            routing_response = self.llm_manager.generate_response(routing_prompt)
+            
+            try:
+                import json
+                routing_data = json.loads(routing_response.strip())
+                
+                if routing_data.get("tool_calls"):
+                    # Execute tool calls
+                    print("🔧 Executing tools...")
+                    for tool_call in routing_data["tool_calls"]:
+                        tool_name = tool_call["tool_name"]
+                        arguments = tool_call["arguments"]
+                        
+                        print(f"📞 Calling tool: {tool_name}")
+                        print(f"📝 Arguments: {arguments}")
+                        
+                        # Validate tool arguments against schema
+                        if not await self._validate_tool_arguments(tool_name, arguments):
+                            print(f"❌ Tool arguments validation failed for {tool_name}")
+                            continue
+                        
+                        try:
+                            result = await self.multi_provider.call_tool(tool_name, arguments)
+                            print(f"✅ Tool result: {result}")
+                        except Exception as e:
+                            print(f"❌ Tool call failed: {e}")
+                    
+                    # Provide a brief summary of the tool execution
+                    print("\n✅ Tool execution completed. You can ask another question or request.")
+                else:
+                    # No tools can handle this, fall back to direct LLM
+                    if "fallback" in routing_data:
+                        print(f"ℹ️  {routing_data['fallback']}")
+                    print("🔄 Falling back to direct LLM response...")
+                    await self._handle_direct_llm_response(user_input)
+                    
+            except json.JSONDecodeError:
+                print("❌ Failed to parse LLM routing response, falling back to direct response...")
+                await self._handle_direct_llm_response(user_input)
+                
+        except Exception as e:
+            print(f"❌ Error in tool routing: {e}")
+            print("🔄 Falling back to direct LLM response...")
+            await self._handle_direct_llm_response(user_input)
 
     async def _handle_direct_llm_response(self, user_input: str):
         """Handle user input with direct LLM response."""
@@ -419,14 +545,76 @@ class ChatInterface:
         else:
             print("\nLLM provider is not configured. Please check your 'config/llm_providers.yml' and ensure API keys are set.")
 
-    async def _chat_loop_entry(self, user_input: str):
-        """A re-entry point for the chat loop to avoid recursion issues."""
-        if user_input.startswith('/'):
-            await self._handle_command(user_input)
-        elif self.llm_manager and self.llm_manager.has_provider():
-            # This is the second pass, for a pure chat response
-            response = self.llm_manager.generate_response(user_input)
-            print(f"\n🤖 AI:\n{response}")
-        else:
-            # Fallback if somehow called without an LLM
-            print("\nLLM provider not available.") 
+    async def _validate_tool_arguments(self, tool_name: str, arguments: dict) -> bool:
+        """
+        Validate that the provided arguments match the tool's input schema.
+        Returns True if valid, False otherwise.
+        """
+        try:
+            # Find the tool in our available tools
+            available_tools = self.multi_provider.list_all_tools()
+            tool_info = None
+            
+            for name, server_id, info in available_tools:
+                if name == tool_name:
+                    tool_info = info
+                    break
+            
+            if not tool_info:
+                print(f"❌ Tool '{tool_name}' not found in available tools")
+                return False
+            
+            # Check if tool has input schema
+            if not hasattr(tool_info, 'inputSchema') or not tool_info.inputSchema:
+                print(f"⚠️  Tool '{tool_name}' has no input schema, proceeding without validation")
+                return True
+            
+            schema = tool_info.inputSchema
+            
+            # Handle both dict and object schemas
+            if isinstance(schema, dict):
+                if 'properties' not in schema:
+                    print(f"⚠️  Tool '{tool_name}' has incomplete schema (no properties), proceeding without validation")
+                    return True
+                properties = schema['properties']
+                required = schema.get('required', [])
+            elif hasattr(schema, 'properties'):
+                properties = schema.properties
+                required = getattr(schema, 'required', [])
+            else:
+                print(f"⚠️  Tool '{tool_name}' has incomplete schema, proceeding without validation")
+                return True
+            
+            # Check required arguments
+            for req_arg in required:
+                if req_arg not in arguments:
+                    print(f"❌ Missing required argument '{req_arg}' for tool '{tool_name}'")
+                    return False
+            
+            # Check argument types (basic validation)
+            for arg_name, arg_value in arguments.items():
+                if arg_name in properties:
+                    prop_info = properties[arg_name]
+                    
+                    # Handle both dict and object property info
+                    if isinstance(prop_info, dict):
+                        expected_type = prop_info.get('type')
+                    else:
+                        expected_type = getattr(prop_info, 'type', None)
+                    
+                    if expected_type == 'string' and not isinstance(arg_value, str):
+                        print(f"❌ Argument '{arg_name}' should be string, got {type(arg_value).__name__}")
+                        return False
+                    elif expected_type == 'number' and not isinstance(arg_value, (int, float)):
+                        print(f"❌ Argument '{arg_name}' should be number, got {type(arg_value).__name__}")
+                        return False
+                    elif expected_type == 'boolean' and not isinstance(arg_value, bool):
+                        print(f"❌ Argument '{arg_name}' should be boolean, got {type(arg_value).__name__}")
+                        return False
+            
+            print(f"✅ Tool arguments validation passed for '{tool_name}'")
+            return True
+            
+        except Exception as e:
+            print(f"⚠️  Error during tool validation: {e}, proceeding anyway")
+            return True 
