@@ -8,9 +8,11 @@ This package contains the core agent functionality including:
 """
 
 from .core.agents import Agent
-from .job_agent import JobAgent
+from .new_job_agent import NewJobAgent
 from .multi_agent_controller import MultiAgentController
 
 __all__ = [
-    'Agent', 'JobAgent', 'MultiAgentController'
+    'Agent', 
+    'NewJobAgent',
+    'MultiAgentController'
 ] 

@@ -16,7 +16,7 @@ from telegram.ext import Application
 # Import for LLM and MCP integration
 from ..providers.llm.multi import MultiLLMProvider
 from ..agents.multi_agent_controller import MultiAgentController
-from ..agents.job_agent import JobAgent
+from ..agents.new_job_agent import NewJobAgent
 from ..agents.weight_management_agent import WeightManagementAgent
 from ..agents.models import ResponseFormatter
 
@@ -119,7 +119,7 @@ class TelegramWebhook:
         self.multi_agent_controller = None
         try:
             # Create available agents
-            job_agent = JobAgent()
+            job_agent = NewJobAgent()
             weight_management_agent = WeightManagementAgent()
             
             # Initialize the multi-agent controller with available agents

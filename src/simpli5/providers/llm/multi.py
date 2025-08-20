@@ -1,6 +1,8 @@
 import os
 import yaml
-from typing import Dict, Optional
+import json
+import re
+from typing import Dict, Optional, Any
 from .base import BaseLLMProvider
 
 class MultiLLMProvider:
@@ -88,4 +90,111 @@ class MultiLLMProvider:
         if self.default_provider:
             return self.default_provider.generate_response(prompt)
         
-        return "No LLM provider is configured. Please check your 'config/llm_providers.yml' and ensure the required API key environment variables are set." 
+        return "No LLM provider is configured. Please check your 'config/llm_providers.yml' and ensure the required API key environment variables are set."
+    
+    def generate_json_response(self, prompt: str, fields: Dict[str, str], retry_count: int = 3):
+        """
+        Generates a JSON response with enforced field structure.
+        
+        Args:
+            prompt: The user's prompt
+            fields: Dictionary mapping field names to field descriptions
+            retry_count: Number of retry attempts if JSON parsing fails
+            
+        Returns:
+            SystemMessage object containing the parsed JSON response
+            
+        Raises:
+            ValueError: If JSON parsing fails after all retry attempts
+        """
+        # Local import to avoid circular dependency
+        from simpli5.agents.core.messages import SystemMessage
+        
+        if not self.default_provider:
+            raise ValueError("No LLM provider is configured")
+        
+        # Build the JSON-enforced prompt
+        json_prompt = self._build_json_prompt(prompt, fields)
+        
+        for attempt in range(retry_count):
+            try:
+                # Get response from LLM
+                response = self.default_provider.generate_response(json_prompt)
+                
+                # Try to parse JSON
+                parsed_response = self._parse_json_response(response)
+                
+                # Validate that all required fields are present
+                self._validate_json_fields(parsed_response, fields.keys())
+                
+                # Return as SystemMessage object
+                return SystemMessage(message=parsed_response)
+                
+            except (ValueError, KeyError) as e:
+                if attempt == retry_count - 1:
+                    # Last attempt failed
+                    raise ValueError(f"Failed to generate valid JSON after {retry_count} attempts. Last error: {str(e)}")
+                
+                # Add more explicit instructions for retry
+                json_prompt += f"\n\nIMPORTANT: Your previous response was not valid JSON. Please ensure you return ONLY valid JSON with these exact fields: {list(fields.keys())}"
+        
+        # This should never be reached, but just in case
+        raise ValueError("Unexpected error in JSON generation")
+    
+    def _build_json_prompt(self, prompt: str, fields: Dict[str, str]) -> str:
+        """Build a prompt that enforces JSON output."""
+        
+        fields_description = "\n".join([f"- {field_name}: {description}" for field_name, description in fields.items()])
+        
+        return f"""
+{prompt}
+
+IMPORTANT: You must respond with ONLY valid JSON. Do not include any other text, explanations, or formatting.
+
+Required JSON fields:
+{fields_description}
+
+Example response format:
+{{
+{chr(10).join([f'    "{field_name}": "example_value"' for field_name in fields.keys()])}
+}}
+
+Remember: Return ONLY the JSON object, nothing else.
+"""
+    
+    def _parse_json_response(self, response: str) -> Dict[str, Any]:
+        """Parse JSON response, handling common LLM formatting issues."""
+        
+        # Clean the response
+        cleaned_response = response.strip()
+        
+        # Remove markdown code blocks if present
+        if cleaned_response.startswith("```json"):
+            cleaned_response = cleaned_response[7:]
+        if cleaned_response.endswith("```"):
+            cleaned_response = cleaned_response[:-3]
+        if cleaned_response.startswith("```"):
+            cleaned_response = cleaned_response[3:]
+        
+        # Remove any leading/trailing whitespace
+        cleaned_response = cleaned_response.strip()
+        
+        # Try to parse as JSON
+        try:
+            return json.loads(cleaned_response)
+        except json.JSONDecodeError as e:
+            # Try to extract JSON from the response
+            json_match = re.search(r'\{.*\}', cleaned_response, re.DOTALL)
+            if json_match:
+                try:
+                    return json.loads(json_match.group())
+                except json.JSONDecodeError:
+                    pass
+            
+            raise ValueError(f"Invalid JSON response: {str(e)}")
+    
+    def _validate_json_fields(self, response: Dict[str, Any], required_fields: set):
+        """Validate that all required fields are present in the response."""
+        missing_fields = required_fields - set(response.keys())
+        if missing_fields:
+            raise KeyError(f"Missing required fields: {missing_fields}") 
