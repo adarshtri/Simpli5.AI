@@ -323,8 +323,6 @@ class TelegramWebhook:
         try:
             # Use the structured formatter to extract the message
             text_to_send = ResponseFormatter.format_for_telegram(message_text)
-            
-            logger.info(f"📤 Sending response to chat {chat_id}: '{text_to_send}'")
             await self.bot.bot.send_message(chat_id=chat_id, text=text_to_send)
             logger.info(f"✅ Response sent successfully to chat {chat_id}")
         except Exception as e:

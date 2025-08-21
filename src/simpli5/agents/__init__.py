@@ -9,10 +9,12 @@ This package contains the core agent functionality including:
 
 from .core.agents import Agent
 from .new_job_agent import NewJobAgent
+from .weight_management_agent import WeightManagementAgent
 from .multi_agent_controller import MultiAgentController
 
 __all__ = [
     'Agent', 
     'NewJobAgent',
+    'WeightManagementAgent',
     'MultiAgentController'
 ] 

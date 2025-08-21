@@ -48,7 +48,7 @@ class NewJobAgent(Agent):
             
             # Step 2: Select and execute tools
             tool_result = await self.execute_step(self.tool_step, user_msg, context)
-            
+                        
             # Step 3: Generate final response
             response_result = await self.execute_step(self.response_step, user_msg, context)
              

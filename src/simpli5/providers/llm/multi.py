@@ -66,10 +66,9 @@ class MultiLLMProvider:
         if provider_name == 'groq':
             from .groq import GroqProvider
             return GroqProvider
-        # Add other providers here in the future
-        # elif provider_name == 'openai':
-        #     from .openai_provider import OpenAIProvider
-        #     return OpenAIProvider
+        elif provider_name == 'openai':
+            from .openai_provider import OpenAIProvider
+            return OpenAIProvider
         else:
             raise ImportError(f"LLM provider '{provider_name}' is not supported.")
 

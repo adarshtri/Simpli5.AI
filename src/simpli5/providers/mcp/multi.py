@@ -92,7 +92,7 @@ class MultiServerProvider:
             # Load tools
             tools = await provider.list_tools()
             for tool in tools:
-                tool_name = f"{server_id}:{tool.name}"
+                tool_name = f"{tool.name}"
                 self.tools[tool_name] = (server_id, tool)
                 print(f"  Tool: {tool_name} (from {server_id} via {transport_type})")
             
@@ -138,7 +138,6 @@ class MultiServerProvider:
     
     async def call_tool(self, tool_name: str, arguments: dict):
         """Call a tool on the appropriate server (HTTP or STDIO)."""
-        tool_names = [tool.split(':', 1)[1] for tool in self.tools.keys()]
         if tool_name in self.tools.keys():
             server_id, _ = self.tools[tool_name]
             
@@ -150,7 +149,7 @@ class MultiServerProvider:
             # Check STDIO providers
             elif server_id in self.stdio_manager.clients:
                 client = self.stdio_manager.clients[server_id]
-                return await client.call_tool(tool_name.split(':', 1)[1], arguments)
+                return await client.call_tool(tool_name, arguments)
             
             else:
                 raise ValueError(f"Server '{server_id}' not found for tool '{tool_name}'")

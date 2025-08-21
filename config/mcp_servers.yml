@@ -32,3 +32,11 @@ servers:
     args: ["src/simpli5/servers/job_agent_server.py"]
     description: "Job-related operations and message storage"
     enabled: true
+  
+  weight_management_agent:
+    name: "Weight Management Agent Server"
+    transport: "stdio"
+    command: "python3"
+    args: ["src/simpli5/servers/weight_management_agent_server.py"]
+    description: "Weight tracking, health metrics, and fitness goals"
+    enabled: true

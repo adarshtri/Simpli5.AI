@@ -5,6 +5,7 @@ Multi-Agent Controller for routing messages to appropriate agents.
 from typing import Dict, Any, List, Optional, Union
 from .core.agents import Agent
 from .new_job_agent import NewJobAgent
+from .weight_management_agent import WeightManagementAgent
 from .models import MultiAgentResponse, AgentResponse
 
 
@@ -72,6 +73,7 @@ class MultiAgentController(Agent):
                     return f"No suitable agent found to handle this message. Reason: {selection_reason}"
                     
             else:
+                print(f"\n\n\n*********\n\n🔀 MultiAgentController: {selection_result}\n\n*********\n\n")
                 print(f"🔀 MultiAgentController: No selection result available")
                 return "No suitable agent found to handle this message."
                 
@@ -112,8 +114,6 @@ User message: "{user_message}"
 
 Based on the user message, select the most appropriate agent and provide a reason for your selection.
 
-IMPORTANT: You must ALWAYS provide a reason, whether you select an agent or not.
-
 Respond with a JSON object in this exact format:
 {{"name": "AgentName", "reason": "Your detailed reason for selecting this agent"}}
 
@@ -122,7 +122,10 @@ If no agent is suitable, respond with:
 
 Examples:
         - For job-related messages: {{"name": "NewJobAgent", "reason": "This message discusses job applications and career activities, which directly matches the NewJobAgent's specialization in job-related messages and career discussions."}}
-- For unrelated messages: {{"name": "none", "reason": "This message appears to be a general greeting or casual conversation that doesn't relate to any of the available specialized agents. The available agents are focused on specific domains (job-related activities) and this message doesn't fall within their scope."}}
+        - For weight and fitness messages: {{"name": "WeightManagementAgent", "reason": "This message discusses weight tracking, fitness goals, or health-related activities, which directly matches the WeightManagementAgent's specialization in weight management and fitness tracking."}}
+- For unrelated messages: {{"name": "none", "reason": "This message appears to be a general greeting or casual conversation that doesn't relate to any of the available specialized agents. The available agents are focused on specific domains (job-related activities and weight management) and this message doesn't fall within their scope."}}
+
+IMPORTANT: You must only respond with a JSON object. No other text. Don't quote the JSON object with any markdown or other formatting.
 """
             
             # Get LLM response
@@ -150,7 +153,6 @@ Examples:
                             "reason": selection_reason
                         }                
                 return None
-                
             except json.JSONDecodeError as e:
                 print(f"🔀 MultiAgentController: Failed to parse LLM response as JSON: {e}")
                 print(f"🔀 MultiAgentController: Raw response: '{response}'")

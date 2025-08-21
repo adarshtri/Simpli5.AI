@@ -43,7 +43,6 @@ class ToolSelectionAndExecutionStep(AgenticStep):
         user_id = context.get("user_id", "unknown")
         
         return f"""
-
 IMPORTANT: 
 - USE ORIGINAL TOOL NAMES and DON'T CHANGE THEM.
 - KEEP TOOL PARAMETER NAME AND TYPE CONSISTENT WITH THE TOOL INPUTSCHEMA DEFINITION WHEN GENEATING TOOL PARAMETERS.
@@ -65,6 +64,10 @@ Your task is to select the most appropriate tools to accomplish what the user wa
    - For other parameters, infer them from the user message
 
 Select only the tools that are necessary and appropriate for the user's request. If no tools are necessary, return an empty list.
+
+IMPORTANT: 
+- USE ORIGINAL TOOL NAMES and DON'T CHANGE THEM.
+- KEEP TOOL PARAMETER NAME AND TYPE CONSISTENT WITH THE TOOL INPUTSCHEMA DEFINITION WHEN GENEATING TOOL PARAMETERS.
 """
     
     async def execute(self, inputs: Message, context: Dict[str, Any]) -> AgenticStepResult:
